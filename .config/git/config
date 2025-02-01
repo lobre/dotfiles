@@ -1,0 +1,57 @@
+[user]
+	email = "loric.brevet@gmail.com"
+	name = "Loric Brevet"
+
+[commit]
+	gpgSign = true
+	
+[tag]
+	gpgSign = true
+
+[core]
+	askpass = ""
+	editor = "vi"
+	pager = "less --mouse"
+
+[credential]
+	helper = !pass-git-helper $@
+
+[diff]
+	submodule = "log"
+	tool = "nvimdiff"
+
+[difftool]
+	prompt = false
+
+[difftool "nvimdiff"]
+	cmd = "nvim -d \"$LOCAL\" \"$REMOTE\""
+
+[init]
+	defaultBranch = "main"
+
+[merge]
+	tool = "nvimdiff"
+
+[mergetool]
+	keepBackup = false
+	prompt = false
+
+[mergetool "nvimdiff"]
+	cmd = "nvim -d \"$LOCAL\" \"$REMOTE\" \"$MERGED\" -c '$wincmd w' -c 'wincmd J'"
+
+[pull]
+	rebase = true
+
+[push]
+	autoSetupRemote = true
+	default = "current"
+
+[status]
+	submoduleSummary = true
+
+[submodule]
+	fetchJobs = 8
+	recurse = true
+
+[include]
+	path = "~/.gitconfig.local"

@@ -1,0 +1,23 @@
+#!/bin/sh
+#
+# Wrapper to llm that chooses a default profile if:
+# - no flag is provided
+# - no default command is recognised
+#
+# This will be obsolete once llm allows a default template.
+
+llm="$HOME/.local/bin/llm"
+
+case "$1" in
+    aliases|chat|collections|embed|embed-models|embed-multi|install|keys|logs|models|openai|plugins|similar|templates|uninstall)
+        exec "$llm" "$@"
+        ;;
+esac
+
+for arg; do
+    case "$arg" in
+        -*) exec "$llm" "$@" ;;
+    esac
+done
+
+exec "$llm" -t unix "$@"

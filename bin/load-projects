@@ -1,0 +1,29 @@
+#!/bin/sh
+
+projects=$(cat "$HOME/src/projects")
+
+if [ -f "$HOME/src/projects.local" ]; then
+    local_projects=$(cat "$HOME/src/projects.local")
+    projects=$(printf "%s\n%s" "$projects" "$local_projects")
+fi
+
+printf "%s\n" "$projects" | while read -r path alias; do
+    if [ -z "$path" ] || [ "${path#\#}" != "$path" ]; then
+        continue
+    fi
+
+    name=$(basename "$path")
+
+    if [ -z "$alias" ]; then
+        alias=$name
+    fi
+
+    path=$(dirname "$path")
+
+    if [ ! -d "$HOME/src/$path/$alias" ]; then
+        mkdir -p "$HOME/src/$path"
+        git clone "https://$path/$name" "$HOME/src/$path/$alias"
+    fi
+
+    tmux new -d -s "$alias" -c "$HOME/src/$path/$alias" 2>/dev/null || true
+done

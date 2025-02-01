@@ -1,0 +1,63 @@
+XClock*analog: false
+XClock*face: Iosevka Term:pixelsize=14:style=Regular
+XClock*geometry: 120x25+900+0
+XClock*padding: 4
+XClock*background: #333333
+XClock*foreground: #ffffff
+
+XTerm*title: terminal
+XTerm.termName: xterm-256color
+
+XTerm*faceName: Iosevka Term
+XTerm*faceSize: 12
+XTerm*internalBorder: 20
+
+XTerm*saveLines: 30000
+
+XTerm*selectToClipboard: true
+XTerm*highlightSelection: true
+XTerm*trimSelection: true
+XTerm*metaSendsEscape: true
+
+! keybindings
+XTerm*vt100.translations: #override \n\
+  Ctrl <Key> minus: smaller-vt-font() \n\
+  Ctrl <Key> plus: larger-vt-font() \n\
+  Ctrl Shift <Key> c: copy-selection(CLIPBOARD) \n\
+  Ctrl Shift <Key> v: insert-selection(CLIPBOARD)
+
+! colors
+XTerm*background: #1D262A
+XTerm*foreground: #E7EBED
+
+! black
+XTerm*color0: #333C41
+XTerm*color8: #84A6B8
+
+! red
+XTerm*color1: #FC3841
+XTerm*color9: #FC746D
+
+! green
+XTerm*color2: #5CF19E
+XTerm*color10: #ADF7BE
+
+! yellow
+XTerm*color3: #FED032
+XTerm*color11: #FEE16C
+
+! blue
+XTerm*color4: #37B6FF
+XTerm*color12: #70CFFF
+
+! magenta
+XTerm*color5: #FC226E
+XTerm*color13: #FC669B
+
+! cyan
+XTerm*color6: #59FFD1
+XTerm*color14: #9AFFE6
+
+! white
+XTerm*color7: #FFFFFF
+XTerm*color15: #FFFFFF
