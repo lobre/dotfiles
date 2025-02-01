@@ -10,7 +10,7 @@
 
 [core]
 	askpass = ""
-	editor = "vi"
+	editor = "kak"
 	pager = "less --mouse"
 
 [credential]
@@ -18,26 +18,9 @@
 
 [diff]
 	submodule = "log"
-	tool = "nvimdiff"
-
-[difftool]
-	prompt = false
-
-[difftool "nvimdiff"]
-	cmd = "nvim -d \"$LOCAL\" \"$REMOTE\""
 
 [init]
 	defaultBranch = "main"
-
-[merge]
-	tool = "nvimdiff"
-
-[mergetool]
-	keepBackup = false
-	prompt = false
-
-[mergetool "nvimdiff"]
-	cmd = "nvim -d \"$LOCAL\" \"$REMOTE\" \"$MERGED\" -c '$wincmd w' -c 'wincmd J'"
 
 [pull]
 	rebase = true
