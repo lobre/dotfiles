@@ -20,5 +20,3 @@ export GOROOT="/usr/local/go"
 [[ ":$PATH:" != *":$HOME/.local/bin:"* ]] && export PATH="$PATH:$HOME/.local/bin"
 [[ ":$PATH:" != *":$GOROOT/bin:"* ]] && export PATH="$PATH:$GOROOT/bin"
 [[ ":$PATH:" != *":$GOPATH/bin:"* ]] && export PATH="$PATH:$GOPATH/bin"
-
-$HOME/bin/load-projects
