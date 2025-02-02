@@ -1,5 +1,24 @@
 #!/bin/sh
 
+tmux=false
+reset=false
+
+while [ "$#" -gt 0 ]; do
+    case "$1" in
+        --tmux)
+            tmux=true
+            ;;
+        --reset-remote)
+            reset=true
+            ;;
+        *)
+            echo "Unknown option: $1" >&2
+            exit 1
+            ;;
+    esac
+    shift
+done
+
 projects=$(cat "$HOME/src/projects")
 
 if [ -f "$HOME/src/projects.local" ]; then
@@ -25,11 +44,15 @@ printf "%s\n" "$projects" | while read -r url alias; do
     path="$HOME/src/$dir/$name"
 
     if [ -d "$path" ]; then
-        git -C "$path" remote set-url origin "$url"
+        if [ "$reset" = true ]; then
+            git -C "$path" remote set-url origin "$url"
+        fi
     else
         mkdir -p "$HOME/src/$dir"
         git clone "$url" "$path"
     fi
 
-    tmux new -d -s "$name" -c "$path" 2>/dev/null || true
+    if [ "$tmux" = true ]; then
+        tmux new -d -s "$name" -c "$path" 2>/dev/null || true
+    fi
 done
