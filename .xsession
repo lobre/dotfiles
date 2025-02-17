@@ -5,7 +5,7 @@ setxkbmap fr -variant lafayette33
 xsetroot -solid "#333333"
 
 xclock -strftime '%a %d %b %H:%M' &
-xbattbar -c &
+xbattbar top -t 1 -a &
 
 for wm in openbsd-cwm cwm; do
     if command -v "$wm" >/dev/null 2>&1; then

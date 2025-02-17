@@ -2,34 +2,34 @@ gap 25 25 25 25
 
 moveamount 15
 
-fontname "Iosevka Term:pixelsize=14:style=Regular"
+fontname "Cozette:pixelsize=11:style=Medium"
 
 # default apps
 command "term" "xterm"
 command "lock" "slock"
 
-command "⏵ firefox"          "firefox"
-command "⏵ terminal"         "xterm"
-command "⏵ pinta"            "pinta"
-command "⏵ calc"             "galculator"
-command "⏵ clock"            "xclock -strftime '%a %d %b %H:%M'"
+command "✦ firefox"          "firefox"
+command "✦ terminal"         "xterm"
+command "✦ pinta"            "pinta"
+command "✦ calc"             "galculator"
 
 command "─────────────"      "true"
 
-command "⏵ network"          "nm-connection-editor"
-command "⏵ bluetooth"        "blueman-manager"
-command "⏵ sound"            "pavucontrol"
-command "⏵ display"          "arandr"
-command "⏵ wallpaper"        "nitrogen"
-command "⏵ dim"              "dim"
-command "⏵ screenshot"       "scrot -d 1 -s -e 'xclip -selection clipboard -t image/png < $f'"
+command "✦ network"          "nm-connection-editor"
+command "✦ bluetooth"        "blueman-manager"
+command "✦ sound"            "pavucontrol"
+command "✦ display"          "arandr"
+command "✦ wallpaper"        "nitrogen"
+command "✦ dim"              "dim"
+command "✦ screenshot"       "scrot -d 1 -s -e 'xclip -selection clipboard -t image/png < $f'"
 
-command "─────────────​"      "true"
+# not same dash character
+command "—————————————"      "true"
 
-command "⏵ lock"             "slock"
-command "⏵ logout"           "kill -9 -1"
-command "⏵ restart"          "reboot"
-command "⏵ poweroff"         "poweroff"
+command "✦ lock"             "slock"
+command "✦ logout"           "kill -9 -1"
+command "✦ restart"          "reboot"
+command "✦ poweroff"         "poweroff"
 
 color activeborder orange
 color urgencyborder red

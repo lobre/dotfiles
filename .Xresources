@@ -1,6 +1,6 @@
 XClock*analog: false
-XClock*face: Iosevka Term:pixelsize=14:style=Regular
-XClock*geometry: 120x25+900+0
+XClock*face: Cozette:pixelsize=13:style=Medium
+XClock*geometry: 130x25+895+0
 XClock*padding: 4
 XClock*background: #333333
 XClock*foreground: #ffffff
@@ -8,8 +8,8 @@ XClock*foreground: #ffffff
 XTerm*title: terminal
 XTerm.termName: xterm-256color
 
-XTerm*faceName: Iosevka Term
-XTerm*faceSize: 12
+XTerm*faceName: Cozette
+XTerm*faceSize: 13
 XTerm*internalBorder: 20
 
 XTerm*saveLines: 30000
