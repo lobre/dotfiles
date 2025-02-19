@@ -1,6 +1,6 @@
 XClock*analog: false
 XClock*face: Cozette:pixelsize=13:style=Medium
-XClock*geometry: 130x25+895+0
+XClock*geometry: 130x25+895+1
 XClock*padding: 4
 XClock*background: #333333
 XClock*foreground: #ffffff
@@ -8,11 +8,21 @@ XClock*foreground: #ffffff
 XTerm*title: terminal
 XTerm.termName: xterm-256color
 
-XTerm*faceName: Cozette
-XTerm*faceSize: 13
+XTerm*vt100.geometry: 100x30
 XTerm*internalBorder: 20
-
 XTerm*saveLines: 30000
+
+XTerm*faceName: PragmataPro Mono
+XTerm.vt100.allowBoldFonts: false
+XTerm.vt100.faceSize: 10.5
+
+XTerm.vt100.faceSize1: 9
+XTerm.vt100.faceSize2: 10.5
+XTerm.vt100.faceSize3: 12
+XTerm.vt100.faceSize4: 14
+XTerm.vt100.faceSize5: 16
+XTerm.vt100.faceSize6: 20
+XTerm.vt100.faceSize7: 24
 
 XTerm*selectToClipboard: true
 XTerm*highlightSelection: true
