@@ -13,7 +13,8 @@ XTerm*internalBorder: 20
 XTerm*saveLines: 30000
 
 XTerm*faceName: PragmataPro Mono
-XTerm.vt100.allowBoldFonts: false
+XTerm*boldColors: false
+
 XTerm.vt100.faceSize: 10.5
 
 XTerm.vt100.faceSize1: 9
@@ -37,37 +38,37 @@ XTerm*vt100.translations: #override \n\
   Ctrl Shift <Key> v: insert-selection(CLIPBOARD)
 
 ! colors
-XTerm*background: #1D262A
-XTerm*foreground: #E7EBED
+XTerm*background: #203040
+XTerm*foreground: #E1E3C5
 
 ! black
-XTerm*color0: #333C41
-XTerm*color8: #84A6B8
+XTerm*color0: #000000
+XTerm*color8: #AAADB3
 
 ! red
-XTerm*color1: #FC3841
-XTerm*color9: #FC746D
+XTerm*color1: #FF695C
+XTerm*color9: #663D52
 
 ! green
-XTerm*color2: #5CF19E
-XTerm*color10: #ADF7BE
+XTerm*color2: #79A4A9
+XTerm*color10: #293A4A
 
 ! yellow
-XTerm*color3: #FED032
-XTerm*color11: #FEE16C
+XTerm*color3: #FFD480
+XTerm*color11: #494F5C
 
 ! blue
-XTerm*color4: #37B6FF
-XTerm*color12: #70CFFF
+XTerm*color4: #A194EB
+XTerm*color12: #545B6C
 
 ! magenta
-XTerm*color5: #FC226E
-XTerm*color13: #FC669B
+XTerm*color5: #E27E5A
+XTerm*color13: #D294B3
 
 ! cyan
-XTerm*color6: #59FFD1
-XTerm*color14: #9AFFE6
+XTerm*color6: #A3BDCF
+XTerm*color14: #203040
 
 ! white
-XTerm*color7: #FFFFFF
+XTerm*color7: #C7CAD1
 XTerm*color15: #FFFFFF

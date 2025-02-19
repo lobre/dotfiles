@@ -2,9 +2,7 @@ gap 25 25 25 25
 
 moveamount 15
 
-#fontname "Cozette:pixelsize=11:style=Medium"
 fontname "PragmataPro Mono"
-#fontname "envypn:pixelsize=15"
 
 # default apps
 command "term" "xterm"
@@ -30,10 +28,10 @@ command "• logout"           "kill -9 -1"
 command "• restart"          "reboot"
 command "• poweroff"         "poweroff"
 
-color activeborder orange
-color urgencyborder red
-color groupborder green
-color ungroupborder black
+color activeborder  "#FFD480"
+color urgencyborder "#FF695C"
+color groupborder   "#79A4A9"
+color ungroupborder "#A194EB"
 
 ignore xclock
 
