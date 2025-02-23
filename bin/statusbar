@@ -1,0 +1,30 @@
+#!/bin/sh
+
+clock() {
+    echo "%{A:firefox --new-tab https\://calendar.google.com/:}$(date '+%a %d %b %H:%M')%{A}"
+}
+
+desktop() {
+    xprop -root _NET_CURRENT_DESKTOP | awk '{print $3}'
+}
+
+battery() {
+    level=$(acpi --battery | awk -F ', ' '{print $2}' | tr -d '%')
+
+    if [ "$level" -ge 99 ]; then
+        echo "%{F#00FF00}[full]%{F-}"
+        return
+    fi
+
+    if [ "$level" -lt 15 ]; then
+        echo "%{F#FF0000}[$level%%]%{F-}"
+        return
+    fi
+
+    echo "[$level%]"
+}
+
+while true; do
+    echo "%{SneDP-1}%{c}%{F#FFD480}($(desktop))%{F-} $(clock) $(battery)"
+    sleep 0.3
+done | lemonbar -p -B "#333333" -g 250x25+835+0 -f "PragmataPro Mono:size=10" | $SHELL

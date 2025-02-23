@@ -8,32 +8,32 @@ fontname "PragmataPro Mono:size=10"
 command "term" "xterm"
 command "lock" "slock"
 
-command "• firefox"          "firefox"
-command "• terminal"         "xterm"
-command "• pinta"            "pinta"
-command "• calc"             "galculator"
+command "browser"          "firefox"
+command "terminal"         "xterm"
+command "pinta"            "pinta"
+command "calc"             "galculator"
 
 command "—————————————"      "true"
-command "• network"          "nm-connection-editor"
-command "• bluetooth"        "blueman-manager"
-command "• sound"            "pavucontrol"
-command "• display"          "arandr"
-command "• wallpaper"        "nitrogen"
-command "• dim"              "dim"
-command "• screenshot"       "scrot -d 1 -s -e 'xclip -selection clipboard -t image/png < $f'"
+command "network"          "nm-connection-editor"
+command "bluetooth"        "blueman-manager"
+command "sound"            "pavucontrol"
+command "display"          "arandr"
+command "wallpaper"        "nitrogen"
+command "dim"              "dim"
+command "screenshot"       "scrot -d 1 -s -e 'xclip -selection clipboard -t image/png < $f'"
 command "─────────────"      "true"
 
-command "• lock"             "slock"
-command "• logout"           "kill -9 -1"
-command "• restart"          "reboot"
-command "• poweroff"         "poweroff"
+command "cafe"             "slock"
+command "logout"           "kill -9 -1"
+command "restart"          "reboot"
+command "poweroff"         "poweroff"
 
 color activeborder  "#FFD480"
 color urgencyborder "#FF695C"
 color groupborder   "#79A4A9"
 color ungroupborder "#A194EB"
 
-ignore xclock
+ignore bar
 
 # let me choose mine
 unbind-key all

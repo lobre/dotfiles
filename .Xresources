@@ -1,10 +1,3 @@
-XClock*analog: false
-XClock*face: Cozette:pixelsize=13:style=Medium
-XClock*geometry: 130x25+895+1
-XClock*padding: 4
-XClock*background: #333333
-XClock*foreground: #ffffff
-
 XTerm*title: terminal
 XTerm.termName: xterm-256color
 
