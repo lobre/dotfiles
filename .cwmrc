@@ -2,7 +2,7 @@ gap 25 25 25 25
 
 moveamount 15
 
-fontname "PragmataPro Mono"
+fontname "PragmataPro Mono:size=10"
 
 # default apps
 command "term" "xterm"
