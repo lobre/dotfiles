@@ -11,13 +11,13 @@ desktop() {
 battery() {
     level=$(acpi --battery | awk -F ', ' '{print $2}' | tr -d '%')
 
-    if [ "$level" -ge 99 ]; then
-        echo "%{F#00FF00}[full]%{F-}"
+    if [ "$level" -ge 98 ]; then
+        echo "%{F#79A4A9}[full]%{F-}"
         return
     fi
 
     if [ "$level" -lt 15 ]; then
-        echo "%{F#FF0000}[$level%%]%{F-}"
+        echo "%{F#FF695C}[$level%%]%{F-}"
         return
     fi
 
@@ -25,6 +25,6 @@ battery() {
 }
 
 while true; do
-    echo "%{SneDP-1}%{c}%{F#FFD480}($(desktop))%{F-} $(clock) $(battery)"
+    echo "%{c}%{F#FFD480}($(desktop))%{F-} $(clock) $(battery)"
     sleep 0.3
-done | lemonbar -p -B "#333333" -g 250x25+835+0 -f "PragmataPro Mono:size=10" | $SHELL
+done | lemonbar -p -B "#77000000" -g 250x25+835+0 -f "PragmataPro Mono:size=9" | $SHELL

@@ -2,9 +2,9 @@
 
 setxkbmap fr -variant lafayette33
 
-xsetroot -solid "#333333"
-
+nitrogen --restore &
 statusbar &
+picom &
 
 for wm in openbsd-cwm cwm; do
     if command -v "$wm" >/dev/null 2>&1; then
