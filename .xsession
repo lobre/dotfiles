@@ -4,6 +4,7 @@ setxkbmap fr -variant lafayette33
 
 nitrogen --restore &
 statusbar &
+unclutter -idle 3 &
 picom &
 
 for wm in openbsd-cwm cwm; do

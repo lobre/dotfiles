@@ -12,19 +12,34 @@ battery() {
     level=$(acpi --battery | awk -F ', ' '{print $2}' | tr -d '%')
 
     if [ "$level" -ge 98 ]; then
-        echo "%{F#79A4A9}[full]%{F-}"
+        echo "%{F#79A4A9}[full]%{F-}"
         return
     fi
 
     if [ "$level" -lt 15 ]; then
-        echo "%{F#FF695C}[$level%%]%{F-}"
+        echo "%{F#FF695C}[$level%%]%{F-}"
         return
     fi
 
-    echo "[$level%]"
+    echo "[$level%]"
 }
 
-while true; do
-    echo "%{c}%{F#FFD480}($(desktop))%{F-} $(clock) $(battery)"
-    sleep 0.3
-done | lemonbar -p -B "#77000000" -g 250x25+835+0 -f "PragmataPro Mono:size=9" | $SHELL
+restart() {
+    pgid=$(ps -o pgid= $$ | tr -d ' ')
+    echo "%{A:kill -TERM -- -$pgid && exec "$0":}%{F#44FFFFFF}✕%{F-}%{A}"
+}
+
+geometry() {
+    set -- $(xrandr --query | awk '/ primary / {print $4}' | tr 'x+' ' ')
+    x=$(( $3 + ($1 - 250) / 2 ))
+    echo "250x25+$x+$4"
+}
+
+lemonbar="lemonbar -p -d -g $(geometry) -B '#77000000' -f 'PragmataPro Mono:size=9'"
+
+(
+    while true; do
+        echo "%{c}%{F#FFD480}($(desktop))%{F-} $(clock) $(battery) %{r}$(restart)  "
+        sleep 0.3
+    done
+) | eval "$lemonbar" | setsid "$SHELL"
