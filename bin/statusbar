@@ -4,29 +4,65 @@ clock() {
     echo "%{A:firefox --new-tab https\://calendar.google.com/:}$(date '+%a %d %b %H:%M')%{A}"
 }
 
-desktop() {
-    xprop -root _NET_CURRENT_DESKTOP | awk '{print $3}'
+groups() {
+    current_group=$(xprop -root _NET_CURRENT_DESKTOP | awk '{print $3}')
+
+    enabled_groups="$current_group"
+    shown_groups=""
+
+    for win in $(xwininfo -root -children | awk '$1 ~ /^0x/ {print $1}'); do
+        window_group=$(xprop -id "$win" _NET_WM_DESKTOP 2>/dev/null | awk -F '=' '{print $2}' | sed 's/^ //')
+
+        echo "$window_group" | grep -qE '^[0-9]$' || continue
+
+        enabled_groups="$enabled_groups $window_group"
+
+        if xwininfo -id "$win" | grep -q "Map State: IsViewable"; then
+            shown_groups="$shown_groups $window_group"
+        fi
+    done
+
+    # remove duplicates
+    enabled_groups=$(echo "$enabled_groups" | tr ' ' '\n' | sort -nu | tr '\n' ' ')
+    shown_groups=$(echo "$shown_groups" | tr ' ' '\n' | sort -nu | tr '\n' ' ')
+
+    output=""
+
+    for i in $enabled_groups; do
+        group="$i"
+
+        [ "$i" = "$current_group" ] && group="%{+u}${group}%{-u}"
+
+        if echo "$shown_groups" | grep -qw "$i"; then
+            group="%{F#FFD480}$group%{F-}"
+        else
+            group="%{F#808080}$group%{F-}"
+        fi
+
+        output="$output$group "
+    done
+
+    output=$(echo "$output" | sed 's/ *$//') # trim ending spaces
+
+    echo "%{F#FFD480}(%{F-}$output%{F#FFD480})%{F-}"
 }
 
 battery() {
-    level=$(acpi --battery | awk -F ', ' '{print $2}' | tr -d '%')
+    # hide when not charging
+    acpi -b | grep -q ': Not charging,' && return
 
-    if [ "$level" -ge 98 ]; then
-        echo "%{F#79A4A9}[full]%{F-}"
-        return
-    fi
+    level=$(acpi -b | awk -F ', ' '{print $2}' | tr -d '%')
 
     if [ "$level" -lt 15 ]; then
-        echo "%{F#FF695C}[$level%%]%{F-}"
-        return
+        echo "%{F#FF695C}[$level%%]%{F-}"
+    else
+        echo "%{F#79A4A9}[$level%%]%{F-}"
     fi
-
-    echo "[$level%]"
 }
 
 restart() {
-    pgid=$(ps -o pgid= $$ | tr -d ' ')
-    echo "%{A:kill -TERM -- -$pgid && exec "$0":}%{F#44FFFFFF}✕%{F-}%{A}"
+    lemonpid=$(pstree -p $$ | grep -oP 'lemonbar\(\K[0-9]+')
+    echo "%{A:kill $lemonpid && exec "$0":}%{F#44FFFFFF}  %{F-}%{A}"
 }
 
 geometry() {
@@ -35,11 +71,11 @@ geometry() {
     echo "250x25+$x+$4"
 }
 
-lemonbar="lemonbar -p -d -g $(geometry) -B '#77000000' -f 'PragmataPro Mono:size=9'"
+lemonbar="lemonbar -p -d -g $(geometry) -u 2 -U '#FFD480' -B '#77000000' -f 'PragmataPro Mono:size=9'"
 
 (
     while true; do
-        echo "%{c}%{F#FFD480}($(desktop))%{F-} $(clock) $(battery) %{r}$(restart)  "
+        echo "%{c}$(groups) $(clock) $(battery) %{r}$(restart)"
         sleep 0.3
     done
 ) | eval "$lemonbar" | setsid "$SHELL"
