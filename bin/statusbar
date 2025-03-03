@@ -62,7 +62,7 @@ battery() {
 
 restart() {
     lemonpid=$(pstree -p $$ | grep -oP 'lemonbar\(\K[0-9]+')
-    echo "%{A:kill $lemonpid && exec "$0":}%{F#44FFFFFF}  %{F-}%{A}"
+    echo "%{A:kill $lemonpid && exec "$0":}%{F#808080}%{F-}%{A}"
 }
 
 geometry() {
@@ -75,7 +75,7 @@ lemonbar="lemonbar -p -d -g $(geometry) -u 2 -U '#FFD480' -B '#77000000' -f 'Pra
 
 (
     while true; do
-        echo "%{c}$(groups) $(clock) $(battery) %{r}$(restart)"
+        echo "  $(groups) %{c}$(clock) %{r}$(battery) $(restart)  "
         sleep 0.3
     done
 ) | eval "$lemonbar" | setsid "$SHELL"
