@@ -1,5 +1,14 @@
 #!/bin/sh
 
+font="PragmataPro Mono:size=9"
+
+text_color="#FFFFFF"     # white
+accent_color="#FFD480"   # yellow
+dim_color="#808080"      # grey
+bad_color="#FF695C"      # red
+good_color="#79A4A9"     # green
+bg_color="#77000000"     # dark transparent
+
 clock() {
     echo "%{A:firefox --new-tab https\://calendar.google.com/:}$(date '+%a %-e %b %-H:%M')%{A}"
 }
@@ -8,7 +17,7 @@ groups() {
     current_group=$(xprop -root _NET_CURRENT_DESKTOP | awk '{print $3}')
 
     enabled_groups="$current_group"
-    shown_groups=""
+    visible_groups=""
 
     for win in $(xwininfo -root -children | awk '$1 ~ /^0x/ {print $1}'); do
         window_group=$(xprop -id "$win" _NET_WM_DESKTOP 2>/dev/null | awk -F '=' '{print $2}' | sed 's/^ //')
@@ -18,13 +27,13 @@ groups() {
         enabled_groups="$enabled_groups $window_group"
 
         if xwininfo -id "$win" | grep -q "Map State: IsViewable"; then
-            shown_groups="$shown_groups $window_group"
+            visible_groups="$visible_groups $window_group"
         fi
     done
 
     # remove duplicates
     enabled_groups=$(echo "$enabled_groups" | tr ' ' '\n' | sort -nu | tr '\n' ' ')
-    shown_groups=$(echo "$shown_groups" | tr ' ' '\n' | sort -nu | tr '\n' ' ')
+    visible_groups=$(echo "$visible_groups" | tr ' ' '\n' | sort -nu | tr '\n' ' ')
 
     output=""
 
@@ -33,10 +42,10 @@ groups() {
 
         [ "$i" = "$current_group" ] && group="%{+u}${group}%{-u}"
 
-        if echo "$shown_groups" | grep -qw "$i"; then
-            group="%{F#FFD480}$group%{F-}"
+        if echo "$visible_groups" | grep -qw "$i"; then
+            group="%{F$accent_color}$group%{F-}"
         else
-            group="%{F#808080}$group%{F-}"
+            group="%{F$dim_color}$group%{F-}"
         fi
 
         output="$output$group "
@@ -44,7 +53,7 @@ groups() {
 
     output=$(echo "$output" | sed 's/ *$//') # trim ending spaces
 
-    echo "%{F#FFD480}(%{F-}$output%{F#FFD480})%{F-}"
+    echo "%{F$accent_color}(%{F-}$output%{F$accent_color})%{F-}"
 }
 
 battery() {
@@ -54,24 +63,27 @@ battery() {
     level=$(acpi -b | awk -F ', ' '{print $2}' | tr -d '%')
 
     if [ "$level" -lt 15 ]; then
-        echo "%{F#FF695C}[$level%%]%{F-}"
+        echo "%{F$bad_color}[$level%%]%{F-}"
     else
-        echo "%{F#79A4A9}[$level%%]%{F-}"
+        echo "%{F$good_color}[$level%%]%{F-}"
     fi
 }
 
 restart() {
     lemonpid=$(pstree -p $$ | grep -oP 'lemonbar\(\K[0-9]+')
-    echo "%{A:kill $lemonpid && exec "$0":}%{F#808080}%{F-}%{A}"
+    echo "%{A:kill $lemonpid && exec $0:}%{F$dim_color}%{F-}%{A}"
 }
 
 geometry() {
+    width=300 # predefined width of the bar
+
+    # shellcheck disable=SC2046 # intended splitting of arguments
     set -- $(xrandr --query | awk '/ primary / {print $4}' | tr 'x+' ' ')
-    x=$(( $3 + ($1 - 250) / 2 ))
-    echo "250x25+$x+$4"
+    x=$(( $3 + ($1 - width) / 2 ))
+    echo "${width}x25+$x+$4"
 }
 
-lemonbar="lemonbar -p -d -g $(geometry) -u 2 -U '#FFD480' -B '#77000000' -f 'PragmataPro Mono:size=9'"
+lemonbar="lemonbar -p -d -g $(geometry) -u 2 -U '$accent_color' -F '$text_color' -B '$bg_color' -f '$font'"
 
 (
     while true; do
