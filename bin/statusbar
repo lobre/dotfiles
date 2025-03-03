@@ -1,7 +1,7 @@
 #!/bin/sh
 
 clock() {
-    echo "%{A:firefox --new-tab https\://calendar.google.com/:}$(date '+%a %d %b %H:%M')%{A}"
+    echo "%{A:firefox --new-tab https\://calendar.google.com/:}$(date '+%a %-e %b %-H:%M')%{A}"
 }
 
 groups() {
