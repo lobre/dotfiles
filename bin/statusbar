@@ -47,28 +47,29 @@ groups() {
     for i in $enabled_groups; do
         group="$i"
 
-        if [ "$i" = "$current_group" ]; then
-            under_color="$accent_color"
-
-            if [ "$current_empty" -eq 1 ]; then
-                under_color="$dim_color"
-            fi
-
-            group="%{U$under_color}%{+u}${group}%{-u}${U-}"
-        fi
-
-        fore_color="$accent_color"
+        fg_color="$accent_color"
 
         if ! echo "$visible_groups" | grep -qw "$i"; then
-            fore_color="$dim_color"
+            fg_color="$dim_color"
         fi
 
-        output="$output%{F$fore_color}$group%{F-} "
+        deco_color="$accent_color"
+
+        if [ "$current_empty" -eq 1 ]; then
+            deco_color="$dim_color"
+        fi
+
+        group="%{F$fg_color}$group%{F-}"
+
+        if [ "$i" = "$current_group" ]; then
+            group="%{U$deco_color}%{+u}${group}%{-u}${U-}"
+        fi
+
+        output="$output$group "
     done
 
-    output=$(echo "$output" | sed 's/ *$//') # trim ending spaces
-
-    echo "%{F$accent_color}(%{F-}$output%{F$accent_color})%{F-}"
+    # trim ending spaces
+    echo "$output" | sed 's/ *$//'
 }
 
 battery() {
@@ -90,7 +91,7 @@ restart() {
 }
 
 geometry() {
-    width=280 # predefined width of the bar
+    width=300 # predefined width of the bar
 
     # shellcheck disable=SC2046 # intended splitting of arguments
     set -- $(xrandr --query | awk '/ primary / {print $4}' | tr 'x+' ' ')
