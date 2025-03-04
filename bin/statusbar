@@ -59,7 +59,7 @@ groups() {
             deco_color="$dim_color"
         fi
 
-        group="%{F$fg_color}$group%{F-}"
+        group="%{F$fg_color}%{A:xdotool key super+$i:}$group%{A}%{F-}"
 
         if [ "$i" = "$current_group" ]; then
             group="%{U$deco_color}%{+u}${group}%{-u}${U-}"
