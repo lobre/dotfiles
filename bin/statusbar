@@ -15,8 +15,9 @@ clock() {
 
 groups() {
     current_group=$(xprop -root _NET_CURRENT_DESKTOP | awk '{print $3}')
+    current_empty=1
 
-    enabled_groups="$current_group"
+    enabled_groups=""
     visible_groups=""
 
     for win in $(xwininfo -root -children | awk '$1 ~ /^0x/ {print $1}'); do
@@ -26,10 +27,16 @@ groups() {
 
         enabled_groups="$enabled_groups $window_group"
 
+        if [ "$window_group" = "$current_group" ]; then
+            current_empty=0 # found a window in current group
+        fi
+
         if xwininfo -id "$win" | grep -q "Map State: IsViewable"; then
             visible_groups="$visible_groups $window_group"
         fi
     done
+
+    enabled_groups="$enabled_groups $current_group"
 
     # remove duplicates
     enabled_groups=$(echo "$enabled_groups" | tr ' ' '\n' | sort -nu | tr '\n' ' ')
@@ -40,15 +47,23 @@ groups() {
     for i in $enabled_groups; do
         group="$i"
 
-        [ "$i" = "$current_group" ] && group="%{+u}${group}%{-u}"
+        if [ "$i" = "$current_group" ]; then
+            under_color="$accent_color"
 
-        if echo "$visible_groups" | grep -qw "$i"; then
-            group="%{F$accent_color}$group%{F-}"
-        else
-            group="%{F$dim_color}$group%{F-}"
+            if [ "$current_empty" -eq 1 ]; then
+                under_color="$dim_color"
+            fi
+
+            group="%{U$under_color}%{+u}${group}%{-u}${U-}"
         fi
 
-        output="$output$group "
+        fore_color="$accent_color"
+
+        if ! echo "$visible_groups" | grep -qw "$i"; then
+            fore_color="$dim_color"
+        fi
+
+        output="$output%{F$fore_color}$group%{F-} "
     done
 
     output=$(echo "$output" | sed 's/ *$//') # trim ending spaces
@@ -75,7 +90,7 @@ restart() {
 }
 
 geometry() {
-    width=300 # predefined width of the bar
+    width=280 # predefined width of the bar
 
     # shellcheck disable=SC2046 # intended splitting of arguments
     set -- $(xrandr --query | awk '/ primary / {print $4}' | tr 'x+' ' ')
@@ -83,7 +98,7 @@ geometry() {
     echo "${width}x25+$x+$4"
 }
 
-lemonbar="lemonbar -p -d -g $(geometry) -u 2 -U '$accent_color' -F '$text_color' -B '$bg_color' -f '$font'"
+lemonbar="lemonbar -p -d -g $(geometry) -u 3 -F '$text_color' -B '$bg_color' -f '$font'"
 
 (
     while true; do
