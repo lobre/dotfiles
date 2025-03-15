@@ -74,7 +74,7 @@ groups() {
 
 battery() {
     # hide when not charging
-    acpi -b | grep -q ': Not charging,' && return
+    acpi -b | grep -E -q ': (Not charging|Full),' && return
 
     level=$(acpi -b | awk -F ', ' '{print $2}' | tr -d '%')
 

@@ -2,7 +2,7 @@ gap 25 25 25 25
 
 borderwidth 2
 
-moveamount 15
+moveamount 20
 
 fontname "PragmataPro Mono:size=10"
 
@@ -110,8 +110,5 @@ bind-key 4S-0 window-movetogroup-0
 bind-key M-Tab  window-cycle
 bind-key MS-Tab window-rcycle
 
-bind-key 4-f window-cycle-ingroup
-bind-key 4-d window-rcycle-ingroup
-
-bind-key 4-Tab  group-cycle
-bind-key 4S-Tab group-rcycle
+bind-key 4-Tab  window-cycle-ingroup
+bind-key 4S-Tab window-rcycle-ingroup
