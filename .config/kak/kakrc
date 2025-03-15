@@ -1,0 +1,60 @@
+set global startup_info_version 20240519
+
+set global indentwidth 4
+set global ui_options terminal_set_title=false terminal_assistant=none terminal_enable_mouse=true
+set global autoinfo ""
+set global autocomplete prompt|insert
+
+add-highlighter global/ wrap
+add-highlighter global/ show-whitespaces -only-trailing -lf " " -indent ""
+
+def -params 1 assign %{ set global "%arg{1}client" %val{client} }
+complete-command assign shell-script-candidates %{ printf 'jump\ntools\ndocs\n' }
+
+def -params 1 project %{ change-directory "%arg{1}" }
+complete-command project shell-script-candidates %{ git-projects list }
+
+def mkdir %{ nop %sh{ mkdir -p $(dirname $kak_buffile) } }
+def chmod %{ nop %sh{ chmod +x $kak_buffile } }
+
+def bind -params 1 %{ map global user %arg{1} "<esc>:edit %val{bufname}<ret>" }
+
+def -hidden yank-ref %{
+    evaluate-commands -draft %{
+        execute-keys ',;x'
+        set-register dquote "%val{bufname}:%val{cursor_line}:%val{selection}"
+    }
+}
+
+def -hidden goto %{ evaluate-commands %{
+    require-module jump
+    try %{ exec <a-i><a-w>gf } catch %{ jump }
+}}
+
+# this does not work when trying to open another kak instance in same directory
+hook global EnterDirectory .* %{ rename-session %sh{ basename $(pwd) } }
+
+hook global BufOpenFile ^[^*]+$ %{ evaluate-commands %sh{
+    if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+        for hook in WinCreate BufReload BufWritePost; do
+            echo "hook buffer $hook %val{buffile} 'git show-diff'"
+        done
+    fi
+}}
+
+hook global WinSetOption filetype=(go) "set buffer indentwidth 0"
+hook global WinSetOption filetype=(html|json|nix|xml) "set buffer indentwidth 2"
+hook global WinSetOption filetype=(c|zig) "set buffer indentwidth 4"
+
+hook global WinSetOption filetype=git-commit %{
+    set window autowrap_column 72
+    set window autowrap_format_paragraph true
+    autowrap-enable
+}
+
+map -docstring 'tag' global object t 'c<lt>\w[\w-]*\h*[^<gt>]*?(?<lt>!/)<gt>,<lt>/\w[\w-]*(?<lt>!/)<gt><ret>'
+
+map global normal <a-y> %{:yank-ref<ret>}
+map global normal <ret> %{:goto<ret>}
+map global user <space> %{<esc>:git edit<space>}
+map global user s %{<esc>:edit -scratch *scratch*<ret>}

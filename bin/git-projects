@@ -1,0 +1,53 @@
+#!/bin/sh
+
+valid_ops="list clone reset-remote tmux"
+
+op="$1"
+
+if ! echo "$valid_ops" | grep -wq -- "$op"; then
+    echo "Error: Invalid operation '$op'. Valid options are: $valid_ops"
+    exit 1
+fi
+
+projects=$(cat "$HOME/src/projects")
+
+if [ -f "$HOME/src/projects.local" ]; then
+    local_projects=$(cat "$HOME/src/projects.local")
+    projects=$(printf "%s\n%s" "$projects" "$local_projects")
+fi
+
+printf "%s\n" "$projects" | while read -r url alias; do
+    if [ -z "$url" ] || [ "${url#\#}" != "$url" ]; then
+        continue
+    fi
+
+    dir=${url#https://}
+    dir=${dir%.git}
+
+    name=$(basename "$dir")
+    dir=$(dirname "$dir")
+
+    if [ -n "$alias" ]; then
+        name="$alias"
+    fi
+
+    path="$HOME/src/$dir/$name"
+
+    case "$op" in
+        list)
+            [ -d "$path" ] && echo "$path"
+            ;;
+        clone)
+            if [ ! -d "$path" ]; then
+                mkdir -p "$HOME/src/$dir"
+                git clone "$url" "$path"
+            fi
+            ;;
+        reset-remote)
+            [ -d "$path" ] && git -C "$path" remote set-url origin "$url"
+            ;;
+        tmux)
+            [ -d "$path" ] && tmux new -d -s "$name" -c "$path" 2>/dev/null || true
+            ;;
+    esac
+done
