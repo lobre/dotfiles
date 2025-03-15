@@ -1,0 +1,45 @@
+# certain combinaisons will lock the wm layer
+# to directly chain and allow manipulating windows
+
+tab       = overload(num, swapm(wm, M-tab))
+backspace = overload(num, delete)
+leftbrace = overload(num, delete)
+
+capslock   = overload(control, capslock)
+enter      = overload(control, swapm(wm, M-enter))
+apostrophe = overload(control, swapm(wm, M-enter))
+
+leftmouse   = M-leftmouse
+rightmouse  = M-rightmouse
+middlemouse = M-middlemouse
+mouse2      = M-middlemouse
+
+q = timeout(swapm(wm, M-1), 250, M-S-1)
+w = timeout(swapm(wm, M-2), 250, M-S-2)
+e = timeout(swapm(wm, M-3), 250, M-S-3)
+r = timeout(swapm(wm, M-4), 250, M-S-4)
+t = timeout(swapm(wm, M-5), 250, M-S-5)
+y = timeout(swapm(wm, M-6), 250, M-S-6)
+u = timeout(swapm(wm, M-7), 250, M-S-7)
+i = timeout(swapm(wm, M-8), 250, M-S-8)
+o = timeout(swapm(wm, M-9), 250, M-S-9)
+p = timeout(swapm(wm, M-0), 250, M-S-0)
+
+a = timeout(M-a, 250, M-S-a)
+s = timeout(M-s, 250, M-S-s)
+g = timeout(M-g, 250, M-S-g)
+semicolon = timeout(M-semicolon, 250, M-S-semicolon)
+
+# angle mod
+102nd = timeout(M-z, 250, M-S-z)
+z = timeout(M-x, 250, M-S-x)
+x = timeout(M-c, 250, M-S-c)
+c = timeout(M-v, 250, M-S-v)
+v = timeout(M-b, 250, M-S-b)
+b = 102nd
+
+n     = timeout(M-n, 250, M-S-n)
+m     = timeout(M-m, 250, M-S-m)
+comma = timeout(M-comma, 250, M-S-comma)
+dot   = timeout(M-dot, 250, M-S-dot)
+slash = timeout(M-slash, 250, M-S-slash)

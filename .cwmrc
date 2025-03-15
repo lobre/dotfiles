@@ -1,5 +1,7 @@
 gap 25 25 25 25
 
+borderwidth 2
+
 moveamount 15
 
 fontname "PragmataPro Mono:size=10"
@@ -37,16 +39,24 @@ ignore bar
 
 # let me choose mine
 unbind-key all
+unbind-mouse all
 
-bind-key C4-Return terminal
-bind-key C-Delete  lock
+bind-mouse "1"  menu-window
+bind-mouse "2"  menu-group
+bind-mouse "3"  menu-cmd
+bind-mouse 4-1  window-move
+bind-mouse 4-2  window-resize
+bind-mouse 4-3  window-lower
+bind-mouse C4-1 window-group
+
+bind-key 4-Return  terminal
+bind-key C4-Return window-hide
 bind-key CMS-r     restart
 
 bind-key C-slash  menu-cmd
 bind-key 4-slash  menu-window
 bind-key 4S-slash menu-exec
 
-bind-key 4-Return window-hide
 bind-key 4-m      window-maximize
 bind-key 4-comma  window-vmaximize
 bind-key 4-period window-hmaximize
@@ -100,5 +110,8 @@ bind-key 4S-0 window-movetogroup-0
 bind-key M-Tab  window-cycle
 bind-key MS-Tab window-rcycle
 
-bind-key 4-Tab  window-cycle-ingroup
-bind-key 4S-Tab window-rcycle-ingroup
+bind-key 4-f window-cycle-ingroup
+bind-key 4-d window-rcycle-ingroup
+
+bind-key 4-Tab  group-cycle
+bind-key 4S-Tab group-rcycle
