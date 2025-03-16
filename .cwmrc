@@ -22,7 +22,7 @@ command "sound"            "pavucontrol"
 command "display"          "arandr"
 command "wallpaper"        "nitrogen"
 command "dim"              "dim"
-command "screenshot"       "scrot -d 1 -s -e 'xclip -selection clipboard -t image/png < $f'"
+command "screenshot"       "scrot -d 1 -s -e 'xclip -selection clipboard -t image/png < $f && mv $f ~/Pictures/'"
 command "─────────────"      "true"
 
 command "cafe"             "slock"
