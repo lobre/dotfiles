@@ -14,6 +14,11 @@ statusbar &
 unclutter -idle 3 &
 picom &
 
+# dynamic configs
+if [ -f "$HOME/.xsession.local" ]; then
+   . $HOME/.xsession.local
+fi
+
 for wm in openbsd-cwm cwm; do
     if command -v "$wm" >/dev/null 2>&1; then
         exec "$wm"
