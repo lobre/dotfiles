@@ -47,9 +47,6 @@ dumb)
     ;;
 esac
 
-PLAN9=$HOME/src/github.com/9fans/plan9port export PLAN9
-PATH=$PATH:$PLAN9/bin export PATH
-
 # reserve ctrl-s to bash history forward
 stty -ixon
 

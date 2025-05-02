@@ -1,5 +1,8 @@
 #!/bin/sh
 
+PLAN9=$HOME/src/github.com/9fans/plan9port export PLAN9
+PATH=$PATH:$PLAN9/bin export PATH
+
 setxkbmap fr -variant lafayette33
 
 touchpad=$(xinput list --name-only | grep -i 'touchpad' | head -n1)
@@ -13,9 +16,7 @@ nitrogen --restore &
 statusbar &
 unclutter -idle 3 &
 picom &
-
-# plan 9 fonts
-fontsrv &
+fontsrv & # plan9 fonts
 
 # dynamic configs
 if [ -f "$HOME/.xsession.local" ]; then
