@@ -36,16 +36,19 @@ GIT_PS1_STATESEPARATOR="|"
 
 PS1='\[\033[1;32m\]\h\[\033[0m\]:\[\033[1;34m\]\W\[\033[0;33m\]$(__git_ps1 "(%s)")\[\033[0m\]\$ '
 
-# Set terminal title with xterm esc sequence
 case "$TERM" in
 xterm*)
     PS1="\[\e]0;\h: \W\a\]$PS1"
     ;;
+
+# for instance acme win
+dumb)
+    PS1='$ '
+    ;;
 esac
 
-if [ -n "$PLAN9" ]; then
-    PS1='\h:\W\$ '
-fi
+PLAN9=$HOME/src/github.com/9fans/plan9port export PLAN9
+PATH=$PATH:$PLAN9/bin export PATH
 
 # reserve ctrl-s to bash history forward
 stty -ixon

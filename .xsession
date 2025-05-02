@@ -14,6 +14,9 @@ statusbar &
 unclutter -idle 3 &
 picom &
 
+# plan 9 fonts
+fontsrv &
+
 # dynamic configs
 if [ -f "$HOME/.xsession.local" ]; then
    . $HOME/.xsession.local
