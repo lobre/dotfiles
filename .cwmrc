@@ -1,4 +1,4 @@
-gap 25 25 25 25
+gap 40 40 40 40
 
 borderwidth 2
 
@@ -14,8 +14,9 @@ command "browser"          "firefox"
 command "terminal"         "xterm"
 command "draw"             "drawing"
 command "calc"             "galculator"
+command "clock"            "xterm -geometry 30x1 -T 'clock' -xrm 'XTerm*internalBorder: 5' -e ~/bin/clock"
 
-command "────────────"    "true"
+command "────────────"     "true"
 command "network"          "nm-connection-editor"
 command "bluetooth"        "blueman-manager"
 command "sound"            "pavucontrol"
@@ -25,7 +26,7 @@ command "dim"              "dim"
 command "screenshot"       "scrot -d 1 -s -e 'xclip -selection clipboard -t image/png < $f && mv $f ~/Pictures/'"
 command "──────────── "    "true"
 
-command "café 󰅶"             "slock"
+command "afk"              "slock"
 command "logout"           "kill -9 -1"
 command "restart"          "reboot"
 command "poweroff"         "poweroff"
@@ -34,8 +35,6 @@ color activeborder  "#FFD480"
 color urgencyborder "#FF695C"
 color groupborder   "#79A4A9"
 color ungroupborder "#A194EB"
-
-ignore bar
 
 # let me choose mine
 unbind-key all
@@ -52,16 +51,24 @@ bind-mouse C4-1 window-group
 bind-key 4-Return  terminal
 bind-key 4-Escape  window-hide
 bind-key CMS-r     restart
+bind-key CM-l      lock
 
 bind-key C-slash  menu-cmd
+bind-key CS-slash menu-group
 bind-key 4-slash  menu-window
 bind-key 4S-slash menu-exec
 
-bind-key 4-m      window-maximize
-bind-key 4-comma  window-vmaximize
-bind-key 4-period window-hmaximize
-bind-key 4-x      window-close
-bind-key 4-n      window-menu-label
+bind-key 4-a window-lower
+bind-key 4-s window-raise
+
+bind-key 4-x window-close
+bind-key 4-n window-menu-label
+bind-key 4-z window-vtile
+bind-key 4-g window-group
+bind-key 4-m window-fullscreen
+
+bind-key 4-comma  window-hmaximize
+bind-key 4-period window-vmaximize
 
 bind-key 4-Left   window-move-left
 bind-key 4-Down   window-move-down
@@ -92,9 +99,7 @@ bind-key 4-6 group-toggle-6
 bind-key 4-7 group-toggle-7
 bind-key 4-8 group-toggle-8
 bind-key 4-9 group-toggle-9
-bind-key 4-0 group-toggle-0
-
-bind-key 4-g window-group
+bind-key 4-0  group-toggle-all
 
 bind-key 4S-1 window-movetogroup-1
 bind-key 4S-2 window-movetogroup-2
@@ -105,7 +110,6 @@ bind-key 4S-6 window-movetogroup-6
 bind-key 4S-7 window-movetogroup-7
 bind-key 4S-8 window-movetogroup-8
 bind-key 4S-9 window-movetogroup-9
-bind-key 4S-0 window-movetogroup-0
 
 bind-key M-Tab  window-cycle
 bind-key MS-Tab window-rcycle

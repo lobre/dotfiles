@@ -13,9 +13,7 @@ if [ -n "$touchpad" ]; then
 fi
 
 nitrogen --restore &
-statusbar &
 unclutter -idle 3 &
-picom &
 fontsrv & # plan9 fonts
 
 # dynamic configs

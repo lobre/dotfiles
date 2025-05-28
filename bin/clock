@@ -1,0 +1,38 @@
+#!/bin/sh
+
+get_size() { stty size; }
+battery() { cat /sys/class/power_supply/BAT*/capacity 2>/dev/null | head -n1; }
+status() { cat /sys/class/power_supply/BAT*/status 2>/dev/null | head -n1; }
+
+stty -echo -icanon time 0 min 0
+trap 'tput cnorm; stty sane; printf "\033[2J"; exit' INT TERM
+
+tput civis
+prev_size=""
+while :; do
+    size=$(get_size)
+    rows=${size% *}
+    cols=${size#* }
+    [ "$size" != "$prev_size" ] && printf "\033[2J" && prev_size=$size
+
+    level="$(battery)"
+    stat="$(status)"
+
+    if [ "$stat" = "Full" ] || [ "$stat" = "Not charging" ]; then
+        batt_colored=""
+    elif [ "$level" -lt 15 ]; then
+        batt_colored="$(printf '\033[31m[%s%%]\033[0m' "$level")"
+    else
+        batt_colored="$(printf '\033[38;5;250m[%s%%]\033[0m' "$level")"
+    fi
+
+    date="$(date '+%a %-e %b %-H:%M:%S')"
+    full_line="$date $batt_colored"
+    visible_line=$(printf "%s %s" "$date" "$batt_colored" | sed 's/\x1b\[[0-9;]*m//g')
+    padding=$(( (cols - ${#visible_line}) / 2 ))
+    row=$(( (rows + 1) / 2 ))
+
+    printf "\033[%d;1H\033[K%*s%s %s" "$row" "$padding" "" "$date" "$batt_colored"
+
+    sleep 1
+done
