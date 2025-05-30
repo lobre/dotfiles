@@ -10,7 +10,7 @@ fontname "PragmataPro Mono:size=10"
 command "term" "xterm"
 command "lock" "slock"
 
-command "browser"          "firefox"
+command "www"              "firefox"
 command "terminal"         "xterm"
 command "draw"             "drawing"
 command "calc"             "galculator"
@@ -70,25 +70,35 @@ bind-key 4-m window-fullscreen
 bind-key 4-comma  window-hmaximize
 bind-key 4-period window-vmaximize
 
-bind-key 4-Left   window-move-left
-bind-key 4-Down   window-move-down
-bind-key 4-Up     window-move-up
-bind-key 4-Right  window-move-right
+bind-key 4-Left  window-move-left-big
+bind-key 4-Down  window-move-down-big
+bind-key 4-Up    window-move-up-big
+bind-key 4-Right window-move-right-big
 
-bind-key 4S-Left  window-move-left-big
-bind-key 4S-Down  window-move-down-big
-bind-key 4S-Up    window-move-up-big
-bind-key 4S-Right window-move-right-big
+bind-key 4C-Left   window-move-left
+bind-key 4C-Down   window-move-down
+bind-key 4C-Up     window-move-up
+bind-key 4C-Right  window-move-right
 
-bind-key C4-Left   window-resize-left
-bind-key C4-Down   window-resize-down
-bind-key C4-Up     window-resize-up
-bind-key C4-Right  window-resize-right
+bind-key 4S-Left  window-resize-left-big
+bind-key 4S-Down  window-resize-down-big
+bind-key 4S-Up    window-resize-up-big
+bind-key 4S-Right window-resize-right-big
 
-bind-key C4S-Left  window-resize-left-big
-bind-key C4S-Down  window-resize-down-big
-bind-key C4S-Up    window-resize-up-big
-bind-key C4S-Right window-resize-right-big
+bind-key 4SC-Left   window-resize-left
+bind-key 4SC-Down   window-resize-down
+bind-key 4SC-Up     window-resize-up
+bind-key 4SC-Right  window-resize-right
+
+bind-key 4M-Up pointer-move-up-big
+bind-key 4M-Down pointer-move-down-big
+bind-key 4M-Left pointer-move-left-big
+bind-key 4M-Right pointer-move-right-big
+
+bind-key 4MC-Up pointer-move-up
+bind-key 4MC-Down pointer-move-down
+bind-key 4MC-Left pointer-move-left
+bind-key 4MC-Right pointer-move-right
 
 bind-key 4-1 group-toggle-1
 bind-key 4-2 group-toggle-2
