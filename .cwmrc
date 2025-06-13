@@ -12,7 +12,7 @@ command "lock" "slock"
 
 command "www"              "firefox"
 command "terminal"         "xterm"
-command "draw"             "drawing"
+command "pencil"           "pencil2d"
 command "calc"             "galculator"
 command "clock"            "xterm -geometry 30x1 -T 'clock' -xrm 'XTerm*internalBorder: 5' -e ~/bin/clock"
 
@@ -70,35 +70,25 @@ bind-key 4-m window-fullscreen
 bind-key 4-comma  window-hmaximize
 bind-key 4-period window-vmaximize
 
-bind-key 4-Left  window-move-left-big
-bind-key 4-Down  window-move-down-big
-bind-key 4-Up    window-move-up-big
-bind-key 4-Right window-move-right-big
+bind-key 4-Up    pointer-move-up-big
+bind-key 4-Down  pointer-move-down-big
+bind-key 4-Left  pointer-move-left-big
+bind-key 4-Right pointer-move-right-big
 
-bind-key 4C-Left   window-move-left
-bind-key 4C-Down   window-move-down
-bind-key 4C-Up     window-move-up
-bind-key 4C-Right  window-move-right
+bind-key 4C-Left   window-move-left-big
+bind-key 4C-Down   window-move-down-big
+bind-key 4C-Up     window-move-up-big
+bind-key 4C-Right  window-move-right-big
+
+bind-key 4CS-Left  window-move-left
+bind-key 4CS-Down  window-move-down
+bind-key 4CS-Up    window-move-up
+bind-key 4CS-Right window-move-right
 
 bind-key 4S-Left  window-resize-left-big
 bind-key 4S-Down  window-resize-down-big
 bind-key 4S-Up    window-resize-up-big
 bind-key 4S-Right window-resize-right-big
-
-bind-key 4SC-Left   window-resize-left
-bind-key 4SC-Down   window-resize-down
-bind-key 4SC-Up     window-resize-up
-bind-key 4SC-Right  window-resize-right
-
-bind-key 4M-Up pointer-move-up-big
-bind-key 4M-Down pointer-move-down-big
-bind-key 4M-Left pointer-move-left-big
-bind-key 4M-Right pointer-move-right-big
-
-bind-key 4MC-Up pointer-move-up
-bind-key 4MC-Down pointer-move-down
-bind-key 4MC-Left pointer-move-left
-bind-key 4MC-Right pointer-move-right
 
 bind-key 4-1 group-toggle-1
 bind-key 4-2 group-toggle-2
@@ -109,7 +99,7 @@ bind-key 4-6 group-toggle-6
 bind-key 4-7 group-toggle-7
 bind-key 4-8 group-toggle-8
 bind-key 4-9 group-toggle-9
-bind-key 4-0  group-toggle-all
+bind-key 4-0 group-toggle-all
 
 bind-key 4S-1 window-movetogroup-1
 bind-key 4S-2 window-movetogroup-2
@@ -124,8 +114,8 @@ bind-key 4S-9 window-movetogroup-9
 bind-key M-Tab  window-cycle
 bind-key MS-Tab window-rcycle
 
-bind-key 4-grave  window-cycle
-bind-key 4S-grave window-rcycle
+bind-key 4-grave  window-cycle-ingroup
+bind-key 4S-grave window-rcycle-ingroup
 
 bind-key 4-Tab  window-cycle-ingroup
 bind-key 4S-Tab window-rcycle-ingroup

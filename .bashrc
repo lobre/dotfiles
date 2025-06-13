@@ -11,6 +11,7 @@ shopt -s globstar
 shopt -s checkjobs
 
 alias ls='ls --color'
+alias cal='ncal -b'
 alias run-iso='qemu-system-x86_64 -boot d -m 2048 -enable-kvm -vga virtio -net nic -net user -cpu host -display gtk,grab-on-hover=on -cdrom'
 
 # enable programmable completion features
@@ -38,7 +39,8 @@ PS1='\[\033[1;32m\]\h\[\033[0m\]:\[\033[1;34m\]\W\[\033[0;33m\]$(__git_ps1 "(%s)
 
 case "$TERM" in
 xterm*)
-    PS1="\[\e]0;\h: \W\a\]$PS1"
+    # set terminal title to running command
+    trap 'echo -ne "\033]0;${PWD##*/}: (${BASH_COMMAND})\007"' DEBUG
     ;;
 
 # for instance acme win

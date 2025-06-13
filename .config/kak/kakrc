@@ -1,9 +1,11 @@
 set global startup_info_version 20240519
 
 set global indentwidth 4
-set global ui_options terminal_set_title=false terminal_assistant=none terminal_enable_mouse=true
+set global ui_options terminal_set_title=true terminal_assistant=none terminal_enable_mouse=true
 set global autoinfo ""
 set global autocomplete prompt|insert
+
+colorscheme biplane-dark
 
 add-highlighter global/ wrap
 add-highlighter global/ show-whitespaces -only-trailing -lf " " -indent ""
@@ -26,24 +28,63 @@ def -hidden yank-ref %{
     }
 }
 
-def -hidden goto %{ evaluate-commands %{
-    require-module jump
-    try %{ exec <a-i><a-w>gf } catch %{ jump }
+def focus-path -params 1 %{ eval -save-regs c %{
+    reg c %val{client} %val{bufname}
+
+    eval -client '*' 'reg c %reg{c} %val{client} %val{bufname}'
+
+    eval %sh{
+        path=$1
+
+        eval set -- "$kak_quoted_reg_c"
+
+        while [ $# -gt 0 ]; do
+            client=$1
+            buffer=$2
+
+            if [ "$path" = "$buffer" ]; then
+                echo "eval -client $client focus"
+            fi
+
+            shift 2
+        done
+    }
+}}
+
+def lookup %{ evaluate-commands %{
+    try %{
+        evaluate-commands -draft %{
+            exec '<a-i><a-w>S\A(a/|b/)<ret>'
+            exec 's\A([^:]+)(?::(\d+))?(?::(\d+))?\z'
+            set-register a %reg{1} %reg{2} %reg{3}
+        }
+
+        evaluate-commands -try-client %opt{jumpclient} -verbatim -- edit -existing -- %reg{a}
+
+        echo -debug %reg{1}
+        echo -debug %reg{2}
+        echo -debug %reg{3}
+    } catch %{
+        try %{ exec xs^\$<space><ret>d }
+        exec xi$<space><esc><a-!>sh<ret>
+    }
 }}
 
 # this does not work when trying to open another kak instance in same directory
 hook global EnterDirectory .* %{ rename-session %sh{ basename $(pwd) } }
 
-hook global BufOpenFile ^[^*]+$ %{ evaluate-commands %sh{
-    if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+hook global BufOpenFile ^([^*]+)$ %{ evaluate-commands %sh{
+    if ! git check-ignore -q "$kak_hook_param_capture_1" 2>/dev/null; then
         for hook in WinCreate BufReload BufWritePost; do
+            echo "hook buffer $hook %val{buffile} 'set buffer git_diff_add_char \"▏\"'"
+            echo "hook buffer $hook %val{buffile} 'set buffer git_diff_mod_char \"▏\"'"
             echo "hook buffer $hook %val{buffile} 'git show-diff'"
         done
     fi
 }}
 
 hook global WinSetOption filetype=(go) "set buffer indentwidth 0"
-hook global WinSetOption filetype=(html|json|nix|xml) "set buffer indentwidth 2"
+hook global WinSetOption filetype=(html|json|nix|xml|js|ts) "set buffer indentwidth 2"
 hook global WinSetOption filetype=(c|zig) "set buffer indentwidth 4"
 
 hook global WinSetOption filetype=git-commit %{
@@ -55,6 +96,6 @@ hook global WinSetOption filetype=git-commit %{
 map -docstring 'tag' global object t 'c<lt>\w[\w-]*\h*[^<gt>]*?(?<lt>!/)<gt>,<lt>/\w[\w-]*(?<lt>!/)<gt><ret>'
 
 map global normal <a-y> %{:yank-ref<ret>}
-map global normal <ret> %{:goto<ret>}
-map global user <space> %{<esc>:git edit<space>}
+map global normal <ret> %{:focus-file<ret>}
+map global user <space> %{<esc>:buffer<space>}
 map global user s %{<esc>:edit -scratch *scratch*<ret>}
