@@ -1,0 +1,51 @@
+#!/bin/sh
+
+# shellcheck disable=SC1003
+St=$(printf '\033\\')
+Osc=$(printf '\033]')
+
+paint() {
+    num=$1
+    color=$2
+    printf "${Osc}4;%s;rgb:%s${St}" "$num" "$color"
+}
+
+paintfg() {
+    color=$1
+    printf "${Osc}10;rgb:%s${St}" "$color"
+}
+
+paintbg() {
+    color=$1
+    printf "${Osc}11;rgb:%s${St}" "$color"
+}
+
+# Convert "#rrggbb" to "rr/gg/bb"
+hex_to_rgb() {
+    hex=$(echo "$1" | sed 's/^#//')
+    r=$(echo "$hex" | cut -c1-2)
+    g=$(echo "$hex" | cut -c3-4)
+    b=$(echo "$hex" | cut -c5-6)
+    printf "%s/%s/%s" "$r" "$g" "$b"
+}
+
+json=$(xclip -selection clipboard -o 2>/dev/null)
+
+if ! echo "$json" | jq . >/dev/null 2>&1; then
+    echo "Error: Clipboard does not contain valid JSON" >&2
+    exit 1
+fi
+
+bg=$(printf "%s" "$json" | jq -r '.background // empty')
+[ -n "$bg" ] && paintbg "$(hex_to_rgb "$bg")"
+
+fg=$(printf "%s" "$json" | jq -r '.items[] | select(.label == "foreground") | .color // empty')
+[ -n "$fg" ] && paintfg "$(hex_to_rgb "$fg")"
+
+i=0
+while [ "$i" -lt 16 ]; do
+    label="color $i"
+    color=$(printf "%s" "$json" | jq -r ".items[] | select(.label == \"$label\") | .color // empty")
+    [ -n "$color" ] && paint "$i" "$(hex_to_rgb "$color")"
+    i=$((i + 1))
+done

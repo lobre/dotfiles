@@ -95,7 +95,10 @@ hook global WinSetOption filetype=git-commit %{
 
 map -docstring 'tag' global object t 'c<lt>\w[\w-]*\h*[^<gt>]*?(?<lt>!/)<gt>,<lt>/\w[\w-]*(?<lt>!/)<gt><ret>'
 
-map global normal <a-y> %{:yank-ref<ret>}
+#map global normal <a-y> %{:yank-ref<ret>}
 map global normal <ret> %{:focus-file<ret>}
 map global user <space> %{<esc>:buffer<space>}
-map global user s %{<esc>:edit -scratch *scratch*<ret>}
+
+# clipboard
+map global normal <a-y> %{<a-|>yank<ret>:echo copied to clipboard<ret>}
+map global normal <a-p> !paste<ret>

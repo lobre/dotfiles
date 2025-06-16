@@ -1,0 +1,25 @@
+#!/bin/sh
+
+# Print numbers 0–7 above standard colors
+for i in 0 1 2 3 4 5 6 7; do
+  printf " %3s  " "$i"
+done
+echo
+
+# Print standard color tiles
+for i in 0 1 2 3 4 5 6 7; do
+  printf "\033[4%sm      \033[0m" "$i"
+done
+echo
+
+# Print bright color tiles
+for i in 0 1 2 3 4 5 6 7; do
+  printf "\033[10%sm      \033[0m" "$i"
+done
+echo
+
+# Print numbers 8–15 below bright colors
+for i in 8 9 10 11 12 13 14 15; do
+  printf " %3s  " "$i"
+done
+echo
