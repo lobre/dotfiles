@@ -100,5 +100,5 @@ map global normal <ret> %{:focus-file<ret>}
 map global user <space> %{<esc>:buffer<space>}
 
 # clipboard
-map global normal <a-y> %{<a-|>yank<ret>:echo copied to clipboard<ret>}
+map global normal <a-y> %{<a-|>yank<ret>:echo yanked to clipboard<ret>}
 map global normal <a-p> !paste<ret>
