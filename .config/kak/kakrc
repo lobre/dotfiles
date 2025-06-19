@@ -5,7 +5,7 @@ set global ui_options terminal_set_title=true terminal_assistant=none terminal_e
 set global autoinfo ""
 set global autocomplete prompt|insert
 
-colorscheme biplane-dark
+colorscheme biplane-light
 
 add-highlighter global/ wrap
 add-highlighter global/ show-whitespaces -only-trailing -lf " " -indent ""

@@ -32,37 +32,29 @@ XTerm*vt100.translations: #override \n\
   Meta <Key> space: dabbrev-expand()
 
 ! colors
-XTerm*background: #203040
-XTerm*foreground: #E1E3C5
+XTerm*background: #FFFFEA
+XTerm*foreground: #000000
 
-! black
+! selections
+XTerm*highlightColor: #9EEEEE
+XTerm*highlightTextColor: #000000
+
+! regular
 XTerm*color0: #000000
-XTerm*color8: #AAADB3
+XTerm*color1: #000000
+XTerm*color2: #000000
+XTerm*color3: #000000
+XTerm*color4: #000000
+XTerm*color5: #000000
+XTerm*color6: #000000
+XTerm*color7: #FFFFFF
 
-! red
-XTerm*color1: #FF695C
-XTerm*color9: #663D52
-
-! green
-XTerm*color2: #79A4A9
-XTerm*color10: #293A4A
-
-! yellow
-XTerm*color3: #FFD480
-XTerm*color11: #494F5C
-
-! blue
-XTerm*color4: #A194EB
-XTerm*color12: #545B6C
-
-! magenta
-XTerm*color5: #E27E5A
-XTerm*color13: #D294B3
-
-! cyan
-XTerm*color6: #A3BDCF
-XTerm*color14: #203040
-
-! white
-XTerm*color7: #C7CAD1
+! bright
+XTerm*color8:  #000000
+XTerm*color9:  #000000
+XTerm*color10: #000000
+XTerm*color11: #000000
+XTerm*color12: #000000
+XTerm*color13: #000000
+XTerm*color14: #000000
 XTerm*color15: #FFFFFF

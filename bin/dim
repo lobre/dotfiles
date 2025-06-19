@@ -3,7 +3,7 @@
 brightness=$(xrandr --verbose | grep -m 1 -i brightness | awk '{print $2}')
 
 if [ "$brightness" = "1.0" ]; then
-  xrandr --output eDP-1 --brightness 0.6
+  xrandr --output eDP-1 --brightness 0.3
 else
   xrandr --output eDP-1 --brightness 1.0
 fi

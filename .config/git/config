@@ -51,3 +51,11 @@
 
 [include]
 	path = "~/.gitconfig.local"
+
+[color "diff"]
+	new = "black #dafbe1"
+	old = "black #ffebe9"
+
+[color "status"]
+	added = "black #dafbe1"
+	deleted = "black #ffebe9"

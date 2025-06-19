@@ -23,36 +23,56 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# source the git-sh-prompt script dynamically
-if [ -f "$(git --exec-path)/git-sh-prompt" ]; then
-    . "$(git --exec-path)/git-sh-prompt"
-fi
+prompt_char() {
+    git rev-parse --is-inside-work-tree > /dev/null 2>&1 || {
+        echo '$ '
+        return
+    }
 
-# Git prompt configs, see https://github.com/git/git/blob/master/contrib/completion/git-prompt.sh
-GIT_PS1_SHOWDIRTYSTATE=1
-GIT_PS1_SHOWSTASHSTATE=1
-GIT_PS1_SHOWUNTRACKEDFILES=1
-GIT_PS1_SHOWUPSTREAM="auto"
-GIT_PS1_STATESEPARATOR="|"
+    git_branch=$(git symbolic-ref --short HEAD 2>/dev/null)
+    git_dirty=$(git status --porcelain 2>/dev/null)
 
-PS1='\[\033[1;32m\]\h\[\033[0m\]:\[\033[1;34m\]\W\[\033[0;33m\]$(__git_ps1 "(%s)")\[\033[0m\]\$ '
+    dirty_char=
+    [ -n "$git_dirty" ] && dirty_char='*'
 
-case "$TERM" in
-xterm*)
-    # set terminal title to running command
+    case "$git_branch" in
+        main|master) main_char='$' ;;
+        *)           main_char='%' ;;
+    esac
+
+    echo "${dirty_char}${main_char} "
+}
+
+set_prompt() {
+    prompt_dir=$(basename "$PWD")
+
+    if [ "$TERM" != "dumb" ]; then
+        prompt_dir="\[\e[1m\]$prompt_dir\[\e[0m\]"
+    fi
+
+    bat_stat=$(cat /sys/class/power_supply/BAT*/status 2>/dev/null | head -n1)
+    bat_cap=$(cat /sys/class/power_supply/BAT*/capacity 2>/dev/null | head -n1)
+
+    prompt_bat=""
+
+    if [ -n "$bat_cap" ] && [ "$bat_stat" != "Full" ] && [ "$bat_stat" != "Not charging" ]; then
+        prompt_bat="|${bat_cap}%"
+    fi
+
+    PS1="$(date +%-H:%M)$prompt_bat $prompt_dir $(prompt_char)"
+}
+
+PROMPT_COMMAND=set_prompt
+
+# set terminal title to running command
+if [ "$TERM" = "xterm-256color" ]; then
     trap 'echo -ne "\033]0;${PWD##*/}: (${BASH_COMMAND})\007"' DEBUG
-    ;;
-
-# for instance acme win
-dumb)
-    PS1='$ '
-    ;;
-esac
+fi
 
 # reserve ctrl-s to bash history forward
 stty -ixon
 
 # dynamic configs
 if [ -f "$HOME/.bashrc.local" ]; then
-   . $HOME/.bashrc.local
+   . "$HOME/.bashrc.local"
 fi

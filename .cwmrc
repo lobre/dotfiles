@@ -1,6 +1,6 @@
 gap 40 40 40 40
 
-borderwidth 2
+borderwidth 3
 
 moveamount 40
 
@@ -32,10 +32,18 @@ command "logout"           "kill -9 -1"
 command "restart"          "reboot"
 command "poweroff"         "poweroff"
 
-color activeborder  "#FFD480"
-color urgencyborder "#FF695C"
-color groupborder   "#79A4A9"
-color ungroupborder "#A194EB"
+color activeborder   "#55aaaa"
+color inactiveborder "#9eeeee"
+color urgencyborder  "#9eeeee"
+
+color groupborder    "#88cc88"
+color ungroupborder  "#ffaaaa"
+
+color font           "#000000"
+color selfont        "#ffffff"
+
+color menubg         "#ebffec"
+color menufg         "#488648"
 
 # let me choose mine
 unbind-key all
