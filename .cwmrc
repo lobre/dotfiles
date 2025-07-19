@@ -1,8 +1,8 @@
 gap 40 40 40 40
 
-borderwidth 3
+borderwidth 6
 
-moveamount 40
+moveamount 80
 
 fontname "PragmataPro Mono:size=10"
 
@@ -14,17 +14,15 @@ command "www"              "firefox"
 command "terminal"         "xterm"
 command "pencil"           "pencil2d"
 command "calc"             "galculator"
-command "clock"            "xterm -geometry 30x1 -T 'clock' -xrm 'XTerm*internalBorder: 5' -e ~/bin/clock"
 
 command "────────────"     "true"
 command "network"          "nm-connection-editor"
 command "bluetooth"        "blueman-manager"
 command "sound"            "pavucontrol"
-command "mon solo"         "monitors solo"
-command "mon multi"        "monitors multi"
+command "monitors"         "monitors"
 command "wallpaper"        "nitrogen"
 command "dim"              "dim"
-command "screenshot"       "scrot -d 1 -s -e 'xclip -selection clipboard -t image/png < $f && mv $f ~/Pictures/'"
+command "screenshot"       "screenshot"
 command "──────────── "    "true"
 
 command "afk"              "slock"
@@ -67,12 +65,9 @@ bind-key CS-slash menu-group
 bind-key 4-slash  menu-window
 bind-key 4S-slash menu-exec
 
-bind-key 4-a window-lower
-bind-key 4-s window-raise
-
+bind-key 4-a window-raise
 bind-key 4-x window-close
 bind-key 4-n window-menu-label
-bind-key 4-z window-vtile
 bind-key 4-g window-group
 bind-key 4-m window-fullscreen
 

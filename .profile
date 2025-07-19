@@ -15,5 +15,8 @@ export GOROOT="/usr/local/go"
 
 export PATH="$HOME/bin:$HOME/.local/bin:$GOROOT/bin:$GOPATH/bin:$PATH"
 
-# settings for qt as per in ~/.config/qt5ct/qt5ct.conf
+# override qt5 and qt6 settings
 export QT_QPA_PLATFORMTHEME=qt5ct
+
+# reverse video instead of bg colors for ls colors
+export LS_COLORS="su=7:sg=7:tw=7:ow=7:st=7"

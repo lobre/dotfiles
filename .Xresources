@@ -1,8 +1,10 @@
+Xcursor.theme: Adwaita
+
 XTerm*title: terminal
 XTerm.termName: xterm-256color
 
-XTerm*vt100.geometry: 100x30
-XTerm*internalBorder: 20
+XTerm*vt100.geometry: 80x30
+XTerm*internalBorder: 40
 XTerm*saveLines: 30000
 
 XTerm*faceName: PragmataPro Mono
@@ -50,11 +52,21 @@ XTerm*color6: #000000
 XTerm*color7: #FFFFFF
 
 ! bright
-XTerm*color8:  #000000
-XTerm*color9:  #000000
-XTerm*color10: #000000
-XTerm*color11: #000000
-XTerm*color12: #000000
-XTerm*color13: #000000
-XTerm*color14: #000000
-XTerm*color15: #FFFFFF
+!XTerm*color8:  #000000
+!XTerm*color9:  #000000
+!XTerm*color10: #000000
+!XTerm*color11: #000000
+!XTerm*color12: #000000
+!XTerm*color13: #000000
+!XTerm*color14: #000000
+!XTerm*color15: #FFFFFF
+
+! hunt for cli using bright
+XTerm*color8:  #ffbd12
+XTerm*color9:  #ffbd12
+XTerm*color10: #ffbd12
+XTerm*color11: #ffbd12
+XTerm*color12: #ffbd12
+XTerm*color13: #ffbd12
+XTerm*color14: #ffbd12
+XTerm*color15: #ffbd12

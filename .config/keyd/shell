@@ -1,0 +1,18 @@
+tab       = overload(num, M-tab)
+backspace = overload(num, delete)
+leftbrace = overload(num, delete)
+
+capslock   = overload(control, swapm(focus, M-esc))
+enter      = overload(control, swapm(focus, M-enter))
+apostrophe = overload(control, swapm(focus, M-enter))
+
+q = timeout(swapm(focus, M-1), 250, M-S-1)
+w = timeout(swapm(focus, M-2), 250, M-S-2)
+e = timeout(swapm(focus, M-3), 250, M-S-3)
+r = timeout(swapm(focus, M-4), 250, M-S-4)
+t = timeout(swapm(focus, M-5), 250, M-S-5)
+y = timeout(swapm(focus, M-6), 250, M-S-6)
+u = timeout(swapm(focus, M-7), 250, M-S-7)
+i = timeout(swapm(focus, M-8), 250, M-S-8)
+o = timeout(swapm(focus, M-9), 250, M-S-9)
+p = timeout(swapm(focus, M-0), 250, M-S-0)

@@ -1,0 +1,13 @@
+#!/bin/sh
+
+dir="$HOME/Pictures/screenshots"
+mkdir -p "$dir"
+
+timestamp=$(date +%Y%m%d_%H%M%S)
+filepath="$dir/screenshot_$timestamp.png"
+
+scrot -d 1 -s "$filepath" || exit 1
+
+xclip -selection clipboard -t image/png -i "$filepath"
+
+printf '%s\n' "Screenshot saved to $filepath and copied to clipboard."

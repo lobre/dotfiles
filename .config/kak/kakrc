@@ -5,7 +5,8 @@ set global ui_options terminal_set_title=true terminal_assistant=none terminal_e
 set global autoinfo ""
 set global autocomplete prompt|insert
 
-colorscheme biplane-light
+#colorscheme biplane-light
+colorscheme evo-16-dark
 
 add-highlighter global/ wrap
 add-highlighter global/ show-whitespaces -only-trailing -lf " " -indent ""
@@ -20,6 +21,9 @@ def mkdir %{ nop %sh{ mkdir -p $(dirname $kak_buffile) } }
 def chmod %{ nop %sh{ chmod +x $kak_buffile } }
 
 def bind -params 1 %{ map global user %arg{1} "<esc>:edit %val{bufname}<ret>" }
+
+# i do have a ghost key combination on laptop
+def pipe-to -params .. %{ exec <a-|> }
 
 def -hidden yank-ref %{
     evaluate-commands -draft %{
@@ -98,6 +102,7 @@ map -docstring 'tag' global object t 'c<lt>\w[\w-]*\h*[^<gt>]*?(?<lt>!/)<gt>,<lt
 #map global normal <a-y> %{:yank-ref<ret>}
 map global normal <ret> %{:focus-file<ret>}
 map global user <space> %{<esc>:buffer<space>}
+map global user s %{<esc>:edit -scratch *scratch*<ret>}
 
 # clipboard
 map global normal <a-y> %{<a-|>yank<ret>:echo yanked to clipboard<ret>}

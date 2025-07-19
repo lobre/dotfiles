@@ -1,11 +1,15 @@
 #!/bin/sh
 
-case "${1%%:*}" in
-    http|https)
+case "$1" in
+    http:*|https:*)
         exec firefox "$1"
         ;;
     *.pdf)
         exec zathura "$1"
+        ;;
+    *.jpg|*.jpeg|*.png|*.gif|*.bmp|*.webp)
+        exec feh "$1"
+        ;;
     *)
         exec /usr/bin/xdg-open "$@"
         ;;

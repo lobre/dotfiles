@@ -32,12 +32,11 @@ prompt_char() {
     git_branch=$(git symbolic-ref --short HEAD 2>/dev/null)
     git_dirty=$(git status --porcelain 2>/dev/null)
 
-    dirty_char=
     [ -n "$git_dirty" ] && dirty_char='*'
 
     case "$git_branch" in
-        main|master) main_char='$' ;;
-        *)           main_char='%' ;;
+        main|master|develop|canary) main_char='$' ;;
+        *)                          main_char='%' ;;
     esac
 
     echo "${dirty_char}${main_char} "
@@ -71,6 +70,9 @@ fi
 
 # reserve ctrl-s to bash history forward
 stty -ixon
+
+# bring window to current monitor
+here() { wmctrl -r "$1" -e 0,0,0,-1,-1; }
 
 # dynamic configs
 if [ -f "$HOME/.bashrc.local" ]; then

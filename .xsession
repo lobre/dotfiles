@@ -12,6 +12,12 @@ if [ -n "$touchpad" ]; then
     xinput set-prop "$touchpad" "libinput Natural Scrolling Enabled" 1
 fi
 
+xrdb -merge $HOME/.Xresources
+
+$HOME/bin/monitors
+$HOME/bin/dim 2>/dev/null
+
+# background services
 nitrogen --restore &
 unclutter -idle 3 &
 fontsrv & # plan9 fonts
@@ -23,7 +29,7 @@ fi
 
 for wm in openbsd-cwm cwm; do
     if command -v "$wm" >/dev/null 2>&1; then
-        exec "$wm"
+	exec "$wm"
     fi
 done
 
