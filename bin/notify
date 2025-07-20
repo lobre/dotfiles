@@ -1,10 +1,19 @@
 #!/bin/sh
 
-msg="$1"
+msg="Lost words leave empty spaces."
+timeout=0
+detach=0
 
-[ -z "$msg" ] && msg="Lost words leave empty spaces."
+while [ $# -gt 0 ]; do
+    case "$1" in
+        -t) timeout=$2; shift 2 ;;
+        -d) detach=1; shift ;;
+        -)  msg=$(cat); shift ;;
+        *)  msg="$*"; break ;;
+    esac
+done
 
-# kill any existing notification window
+# kill existing notification
 pkill -f 'xterm .* -name xnotify'
 
 xterm -geometry 50x3-30+30 -name xnotify -T "notification" \
@@ -23,5 +32,13 @@ xterm -geometry 50x3-30+30 -name xnotify -T "notification" \
 
         printf "%s\n\n" "$1"
         dismiss
-        read -r dummy
-    ' _ "$msg"
+
+        if [ "$2" -eq 0 ]; then
+            IFS= read -r dummy
+        else
+            sleep "$2"
+        fi
+    ' _ "$msg" "$timeout" &
+
+# wait if not detached
+[ "$detach" -eq 0 ] && wait "$!"
