@@ -8,9 +8,7 @@ set_dpi() {
     echo "Xft.dpi: $1" | xrdb -merge
 }
 
-outputs=$(xrandr | awk '$2 == "connected" { print $1 }' | sort | tr '\n' '_' | sed 's/_$//')
-
-ref=$(printf "%s_%s" "$(hostname)" "$outputs")
+ref=$(xrandr | awk '$2 == "connected" { print $1 }' | sort | tr '\n' '_' | sed 's/_$//')
 
 layout="$layouts_dir/${ref}.sh"
 

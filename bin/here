@@ -1,0 +1,21 @@
+#!/bin/sh
+#
+# Bring window to the current monitor
+
+query="$1"
+
+# filter window that matches query
+# but exclude current window
+win_id=$(
+    wmctrl -l |
+    grep -i "$query" |
+    grep -v "$(basename "$0")" |
+    awk '{print $1}' |
+    head -n1
+)
+
+if [ -n "$win_id" ]; then
+    wmctrl -i -r "$win_id" -e 0,0,0,-1,-1
+else
+    echo "No matching window found for: $query"
+fi

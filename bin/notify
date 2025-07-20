@@ -1,0 +1,27 @@
+#!/bin/sh
+
+msg="$1"
+
+[ -z "$msg" ] && msg="Lost words leave empty spaces."
+
+# kill any existing notification window
+pkill -f 'xterm .* -name xnotify'
+
+xterm -geometry 50x3-30+30 -name xnotify -T "notification" \
+    -xrm 'XTerm*internalBorder: 20' \
+    -e sh -c '
+        # hide cursor
+        printf "\033[?25l"
+        trap "printf \"\033[?25h\"" EXIT
+
+        dismiss() {
+            label="[ Dismiss ]"
+            cols=$(tput cols)
+            pad=$(( (cols - ${#label}) / 2 ))
+            printf "%${pad}s%s" "" "$label"
+        }
+
+        printf "%s\n\n" "$1"
+        dismiss
+        read -r dummy
+    ' _ "$msg"

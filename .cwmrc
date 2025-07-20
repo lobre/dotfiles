@@ -6,6 +6,8 @@ moveamount 80
 
 fontname "PragmataPro Mono:size=10"
 
+ignore notification
+
 # default apps
 command "term" "xterm"
 command "lock" "slock"

@@ -71,9 +71,6 @@ fi
 # reserve ctrl-s to bash history forward
 stty -ixon
 
-# bring window to current monitor
-here() { wmctrl -r "$1" -e 0,0,0,-1,-1; }
-
 # dynamic configs
 if [ -f "$HOME/.bashrc.local" ]; then
    . "$HOME/.bashrc.local"
