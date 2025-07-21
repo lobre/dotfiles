@@ -1,0 +1,17 @@
+#!/bin/sh
+
+history_file="$HOME/.clip_history"
+last_clip=""
+
+printf '=== clipboard\n' > "$history_file"
+
+while :; do
+    clip=$(xclip -selection clipboard -o 2>/dev/null || true)
+
+    if [ -n "$clip" ] && [ "$clip" != "$last_clip" ]; then
+        printf '\n=== %s\n%s\n' "$(date '+%d %b %Y - %H:%M:%S')" "$clip" >> "$history_file"
+        last_clip=$clip
+    fi
+
+    sleep 0.5
+done

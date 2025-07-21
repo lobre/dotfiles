@@ -19,6 +19,7 @@ $HOME/bin/dim 2>/dev/null
 
 # background services
 batmon &             # custom battery monitor
+clipmon &            # custom clipboard monitor
 fontsrv &            # plan9 fonts
 unclutter -idle 3 &  # hide mouse after idle
 
