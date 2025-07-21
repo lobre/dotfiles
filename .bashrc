@@ -65,7 +65,11 @@ PROMPT_COMMAND=set_prompt
 
 # set terminal title to running command
 if [ "$TERM" = "xterm-256color" ]; then
-    trap 'echo -ne "\033]0;${PWD##*/}: (${BASH_COMMAND})\007"' DEBUG
+    trap '
+        if [ "$BASH_COMMAND" != set_prompt ]; then
+            echo -ne "\033]0;${BASH_COMMAND} — XTerm\007"
+        fi
+    ' DEBUG
 fi
 
 # reserve ctrl-s to bash history forward
@@ -75,3 +79,6 @@ stty -ixon
 if [ -f "$HOME/.bashrc.local" ]; then
    . "$HOME/.bashrc.local"
 fi
+
+# hack for initial terminal title
+new() { :; }; new
