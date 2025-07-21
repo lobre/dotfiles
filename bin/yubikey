@@ -1,0 +1,30 @@
+#!/bin/sh
+
+yubikey=$(lsusb | grep "Yubico" | head -n 1)
+
+if [ -z "$yubikey" ]; then
+    echo "No yubikey found" >&2
+    exit 1
+fi
+
+bus=$(echo "$yubikey" | awk '{print $2}')
+dev=$(echo "$yubikey" | awk '{print $4}' | tr -d ':')
+
+dev_path="/dev/bus/usb/$bus/$dev"
+sys_path=$(udevadm info -q path -n "$dev_path")
+dev_name=$(basename "$sys_path")
+device_dir="/sys/bus/usb/devices/$dev_name"
+
+if [ ! -d "$device_dir" ]; then
+    echo "Could not resolve device directory from $dev_path" >&2
+    exit 1
+fi
+
+if [ -L "$device_dir/driver" ]; then
+    echo "Disabling yubikey ($dev_name)..."
+    echo "$dev_name" | sudo tee /sys/bus/usb/drivers/usb/unbind > /dev/null
+else
+    echo "Enabling yubikey ($dev_name)..."
+    echo "$dev_name" | sudo tee /sys/bus/usb/drivers/usb/bind > /dev/null
+    gpgconf --kill scdaemon
+fi
