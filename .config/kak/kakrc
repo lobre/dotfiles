@@ -106,4 +106,3 @@ map global user s %{<esc>:edit -scratch *scratch*<ret>}
 
 # clipboard
 map global normal <a-y> %{<a-|>yank<ret>:echo yanked to clipboard<ret>}
-map global normal <a-p> !paste<ret>

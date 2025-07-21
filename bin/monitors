@@ -8,11 +8,46 @@ set_dpi() {
     echo "Xft.dpi: $1" | xrdb -merge
 }
 
-ref=$(xrandr | awk '$2 == "connected" { print $1 }' | sort | tr '\n' '_' | sed 's/_$//')
+# generate unique fingerprint between the output
+# and the physical monitor which is plugged to it
+output_fingerprint() {
+    output="$1"
+
+    edid=$(xrandr --verbose | awk -v output="$output" '
+        $1 == output && $2 == "connected" { in_block = 1 }
+
+        in_block && /EDID:/ { capture = 1; next }
+
+        capture {
+            if ($0 ~ /^[ \t]+[0-9a-fA-F]{32}$/) {
+                gsub(/[ \t]/, "", $0)
+                edid = edid $0
+            } else {
+                print edid
+                exit
+            }
+        }
+    ')
+
+    hash="000000"
+
+    if [ -n "$edid" ]; then
+        hash=$(printf "%s" "$edid" | md5sum | cut -c1-6)
+    fi
+
+    printf "%s-%s" "$output" "$hash"
+}
+
+ref=""
+
+for output in $(xrandr | awk '$2 == "connected" { print $1 }' | sort); do
+    ref="${ref}_$(output_fingerprint "$output")"
+done
+
+ref="${ref#_}"
 
 layout="$layouts_dir/${ref}.sh"
 
-# Source layout if found
 if [ -f "$layout" ]; then
     . "$layout"
 else
@@ -20,5 +55,5 @@ else
     echo "$layout"
 fi
 
-# Restore wallpaper
+# restore wallpaper
 nitrogen --restore 2>/dev/null
