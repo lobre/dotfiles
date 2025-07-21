@@ -1,0 +1,16 @@
+#!/bin/sh
+
+threshold=10
+interval=30
+
+while :; do
+    bat_stat=$(cat /sys/class/power_supply/BAT*/status 2>/dev/null | head -n1)
+    bat_cap=$(cat /sys/class/power_supply/BAT*/capacity 2>/dev/null | head -n1)
+
+    if [ -n "$bat_cap" ] && [ "$bat_stat" = "Discharging" ] && [ "$bat_cap" -lt "$threshold" ]; then
+        notify "Battery low: ${bat_cap}%"
+    fi
+
+    sleep "$interval"
+done
+

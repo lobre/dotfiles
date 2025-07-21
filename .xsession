@@ -18,9 +18,9 @@ $HOME/bin/monitors
 $HOME/bin/dim 2>/dev/null
 
 # background services
-nitrogen --restore &
-unclutter -idle 3 &
-fontsrv & # plan9 fonts
+batmon &             # custom battery monitor
+fontsrv &            # plan9 fonts
+unclutter -idle 3 &  # hide mouse after idle
 
 # dynamic configs
 if [ -f "$HOME/.xsession.local" ]; then
