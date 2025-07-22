@@ -4,8 +4,12 @@ layouts_dir="$HOME/.screenlayout"
 mkdir -p "$layouts_dir"
 
 set_dpi() {
-    xrandr --dpi "$1"
-    echo "Xft.dpi: $1" | xrdb -merge
+    dpi="$1"
+    cursor_size=$(( (24 * dpi + 48) / 96 ))
+
+    xrandr --dpi "$dpi"
+    echo "Xft.dpi: $dpi" | xrdb -merge
+    echo "Xcursor.size: $cursor_size" | xrdb -merge
 }
 
 # generate unique fingerprint between the output

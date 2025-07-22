@@ -23,7 +23,16 @@ height=$((2 + $(printf '%s\n' "$msg" | wc -l)))
 width=$(printf '%s\n' "$msg" | awk '{ print length }' | sort -nr | head -n1)
 width=$(( width < 40 ? 40 : width ))
 
-xterm -geometry "${width}x${height}-30+30" -name xnotify -T "notification" \
+# caculate position on primary monitor
+eval "$(xrandr | awk '
+  / primary / {
+    split($4, g, "+");
+    print "x=" g[2] + 30;
+    print "y=" g[3] + 30;
+  }
+')"
+
+xterm -geometry "${width}x${height}+${x}+${y}" -name xnotify -T "notification" \
     -xrm 'XTerm*internalBorder: 20' \
     -e sh -c '
         # hide cursor
