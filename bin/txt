@@ -1,40 +1,52 @@
 #!/bin/sh
 #
-# [t]ext to [i]mage
-#
 # Copy text as an image to clipboard
 
-TEXT=$1
-SIZE=${2:-18}
-COLOR=${3:-black}
-
-FONT="PragmataPro-Liga-Bold"
-WRAP=600
-
-if [ -z "$TEXT" ]; then
-    echo 'usage: ti "Your text" [size] [color]'
+usage() {
+    echo "usage: txt [-b] [-s size] [-c color] [text... | -]" >&2
     exit 1
-fi
+}
 
-DPI=$(
-  xrdb -query 2>/dev/null |
-    awk '
-      BEGIN { d = 72 }
-      $1 == "Xft.dpi:" { d = $2 }
-      END   { print d }
+size=18
+color=black
+weight="Regular"
+stdin="false"
+
+while [ $# -gt 0 ]; do
+    case "$1" in
+        -)  stdin="true";      shift ;;
+        -b) weight="Bold";     shift ;;
+        -s) shift; size="$1";  shift ;;
+        -c) shift; color="$1"; shift ;;
+        --) shift; break ;;
+        -*) usage ;;
+        *)  break ;;
+    esac
+done
+
+font="PragmataPro-Liga-$weight"
+
+# text from parameters or stdin
+text="$*"; [ "$stdin" = "true" ] && text="$(cat)"
+
+# preserve spaces by replacing them with nbsp
+text=$(printf '%s' "$text" | sed "s/ /$(printf '\302\240')/g")
+
+dpi=$(
+    xrdb -query 2>/dev/null | awk '
+        BEGIN { d = 72 }
+        $1 == "Xft.dpi:" { d = $2 }
+        END { print d }
     '
 )
 
 convert \
     +antialias \
-    -density "$DPI" \
+    -density "$dpi" \
     -background none \
-    -fill "$COLOR" \
-    -font "$FONT" \
-    -pointsize "$SIZE" \
-    -gravity Center \
-    -size "${WRAP}x" \
-    caption:"$TEXT" \
-    -trim +repage \
+    -fill "$color" \
+    -font "$font" \
+    -pointsize "$size" \
+    label:"$text" \
     png:- \
 | xclip -selection clipboard -t image/png
