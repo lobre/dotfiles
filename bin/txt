@@ -1,0 +1,40 @@
+#!/bin/sh
+#
+# [t]ext to [i]mage
+#
+# Copy text as an image to clipboard
+
+TEXT=$1
+SIZE=${2:-18}
+COLOR=${3:-black}
+
+FONT="PragmataPro-Liga-Bold"
+WRAP=600
+
+if [ -z "$TEXT" ]; then
+    echo 'usage: ti "Your text" [size] [color]'
+    exit 1
+fi
+
+DPI=$(
+  xrdb -query 2>/dev/null |
+    awk '
+      BEGIN { d = 72 }
+      $1 == "Xft.dpi:" { d = $2 }
+      END   { print d }
+    '
+)
+
+convert \
+    +antialias \
+    -density "$DPI" \
+    -background none \
+    -fill "$COLOR" \
+    -font "$FONT" \
+    -pointsize "$SIZE" \
+    -gravity Center \
+    -size "${WRAP}x" \
+    caption:"$TEXT" \
+    -trim +repage \
+    png:- \
+| xclip -selection clipboard -t image/png
