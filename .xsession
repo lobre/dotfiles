@@ -14,7 +14,7 @@ fi
 
 xrdb -merge $HOME/.Xresources
 
-$HOME/bin/monitors
+#$HOME/bin/monitors
 $HOME/bin/dim 2>/dev/null
 
 # background services
@@ -28,7 +28,7 @@ if [ -f "$HOME/.xsession.local" ]; then
    . $HOME/.xsession.local
 fi
 
-for wm in openbsd-cwm cwm; do
+for wm in pekwm openbsd-cwm cwm; do
     if command -v "$wm" >/dev/null 2>&1; then
 	exec "$wm"
     fi

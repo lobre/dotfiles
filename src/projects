@@ -6,9 +6,11 @@ https://github.com/fabi1cazenave/arsenik.git
 https://github.com/fabi1cazenave/qwerty-lafayette.git
 https://github.com/FiloSottile/mkcert.git
 https://github.com/i3/i3.git
+https://github.com/insilmaril/vym.git
 https://github.com/johnsonjh/OpenVi.git
 https://github.com/kakoune-lsp/kakoune-lsp.git
 https://github.com/kyx0r/nextvi.git
+https://github.com/labwc/labwc.git
 https://github.com/leahneukirchen/cwm.git
 https://github.com/lobre/gloss.git
 https://github.com/lobre/nix-home.git
@@ -24,6 +26,8 @@ https://github.com/neurocyte/flow.git
 https://github.com/nix-community/home-manager.git
 https://github.com/NixOS/nixpkgs.git
 https://github.com/odin-lang/Odin.git
+https://github.com/pacedotdev/oto.git
+https://github.com/pekwm/pekwm.git
 https://github.com/PintaProject/Pinta.git
 https://github.com/rvaiya/keyd.git
 https://github.com/silentz/lemonbar-xft.git
@@ -33,6 +37,8 @@ https://gitlab.alpinelinux.org/alpine/alpine-conf.git
 https://gitlab.alpinelinux.org/alpine/aports.git
 https://gitlab.com/gitlab-org/gitlab.git
 https://gitlab.com/gitlab-org/gitlab-runner.git
+https://gitlab.freedesktop.org/wlroots/wlroots.git
 https://git.sr.ht/~leon_plickat/nfm
 https://git.sr.ht/~leon_plickat/zig-exre
 https://git.sr.ht/~leon_plickat/zig-spoon
+https://git.sr.ht/~rabbits/uxn

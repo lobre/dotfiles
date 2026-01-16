@@ -5,8 +5,7 @@ set global ui_options terminal_set_title=true terminal_assistant=none terminal_e
 set global autoinfo ""
 set global autocomplete prompt|insert
 
-#colorscheme biplane-light
-colorscheme evo-16-dark
+colorscheme 100r
 
 add-highlighter global/ wrap
 add-highlighter global/ show-whitespaces -only-trailing -lf " " -indent ""
@@ -55,22 +54,17 @@ def focus-path -params 1 %{ eval -save-regs c %{
     }
 }}
 
-def lookup %{ evaluate-commands %{
+def lookup %{ eval %{
     try %{
-        evaluate-commands -draft %{
+        eval -draft %{
             exec '<a-i><a-w>S\A(a/|b/)<ret>'
-            exec 's\A([^:]+)(?::(\d+))?(?::(\d+))?\z'
+            exec 's\A([^:]+)(?::(\d+))?(?::(\d+))?<ret>'
             set-register a %reg{1} %reg{2} %reg{3}
         }
 
-        evaluate-commands -try-client %opt{jumpclient} -verbatim -- edit -existing -- %reg{a}
-
-        echo -debug %reg{1}
-        echo -debug %reg{2}
-        echo -debug %reg{3}
+        eval -try-client %opt{jumpclient} -verbatim -- edit -existing -- %reg{a}
     } catch %{
-        try %{ exec xs^\$<space><ret>d }
-        exec xi$<space><esc><a-!>sh<ret>
+        exec -draft x<a-!>sh<ret>
     }
 }}
 
@@ -100,9 +94,29 @@ hook global WinSetOption filetype=git-commit %{
 map -docstring 'tag' global object t 'c<lt>\w[\w-]*\h*[^<gt>]*?(?<lt>!/)<gt>,<lt>/\w[\w-]*(?<lt>!/)<gt><ret>'
 
 #map global normal <a-y> %{:yank-ref<ret>}
-map global normal <ret> %{:focus-file<ret>}
+map global normal <ret> %{:lookup<ret>}
 map global user <space> %{<esc>:buffer<space>}
+map global user g %{<esc>:git grep<space>}
+map global user e %{<esc>:git edit<space>}
 map global user s %{<esc>:edit -scratch *scratch*<ret>}
 
+map global normal <c-p> %{:git edit<space>}
+map global normal <c-n> %{:buffer<space>}
+
 # clipboard
-map global normal <a-y> %{<a-|>yank<ret>:echo yanked to clipboard<ret>}
+map global normal <a-y> %{<a-|>copy<ret>:echo copied to clipboard<ret>}
+
+def reduce %{
+    try %{
+        exec -draft "<a-,>"
+        exec ","
+    } catch %{
+        exec ";"
+    }
+}
+
+map global normal <esc> ":reduce<ret>"
+
+hook global KakBegin .* %{
+    set global termcmd 'io.elementary.terminal -n -e'
+}

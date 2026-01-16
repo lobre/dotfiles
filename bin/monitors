@@ -5,11 +5,17 @@ mkdir -p "$layouts_dir"
 
 set_dpi() {
     dpi="$1"
-    cursor_size=$(( (24 * dpi + 48) / 96 ))
 
-    xrandr --dpi "$dpi"
-    echo "Xft.dpi: $dpi" | xrdb -merge
-    echo "Xcursor.size: $cursor_size" | xrdb -merge
+    pekwm_ctrl -a run Sys Dpi "$dpi"
+
+    if [ "$dpi" -le 96 ]; then
+        pekwm_ctrl -a run WmSet Scale 1.0
+    else
+        pekwm_ctrl -a run WmSet Scale 2.0
+    fi
+
+    cursor_size=$(( (24 * dpi + 48) / 96 ))
+    pekwm_ctrl --xrm-set "Xcursor.size=$cursor_size"
 }
 
 # generate unique fingerprint between the output
@@ -60,4 +66,4 @@ else
 fi
 
 # restore wallpaper
-nitrogen --restore 2>/dev/null
+#nitrogen --restore 2>/dev/null

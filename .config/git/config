@@ -53,9 +53,11 @@
 	path = "~/.gitconfig.local"
 
 [color "diff"]
+        # colors from github
 	new = "black #dafbe1"
 	old = "black #ffebe9"
 
 [color "status"]
+        # colors from github
 	added = "black #dafbe1"
 	deleted = "black #ffebe9"

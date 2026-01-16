@@ -67,7 +67,7 @@ PROMPT_COMMAND=set_prompt
 if [ "$TERM" = "xterm-256color" ]; then
     trap '
         if [ "$BASH_COMMAND" != set_prompt ]; then
-            echo -ne "\033]0;${BASH_COMMAND} — XTerm\007"
+            echo -ne "\033]0;${BASH_COMMAND} — $(basename "$PWD") — XTerm\007"
         fi
     ' DEBUG
 fi

@@ -1,10 +1,10 @@
 gap 40 40 40 40
 
-borderwidth 6
+borderwidth 8
 
 moveamount 80
 
-fontname "PragmataPro Mono:size=10"
+fontname "PragmataPro:size=10:style=Bold"
 
 ignore notification
 
@@ -14,7 +14,9 @@ command "lock" "slock"
 
 command "www"              "firefox"
 command "terminal"         "xterm"
-command "pencil"           "pencil2d"
+command "draw"             "pencil2d"
+command "spreadsheet"      "gnumeric"
+command "word"             "abiword"
 command "calc"             "galculator"
 
 command "────────────"     "true"
@@ -33,9 +35,9 @@ command "logout"           "kill -9 -1"
 command "restart"          "reboot"
 command "poweroff"         "poweroff"
 
-color activeborder   "#55aaaa"
-color inactiveborder "#9eeeee"
-color urgencyborder  "#9eeeee"
+color activeborder   "#000000"
+color inactiveborder "#000000"
+color urgencyborder  "#000000"
 
 color groupborder    "#88cc88"
 color ungroupborder  "#ffaaaa"
@@ -43,8 +45,8 @@ color ungroupborder  "#ffaaaa"
 color font           "#000000"
 color selfont        "#ffffff"
 
-color menubg         "#ebffec"
-color menufg         "#488648"
+color menubg         "#ffffff"
+color menufg         "#000000"
 
 # let me choose mine
 unbind-key all
