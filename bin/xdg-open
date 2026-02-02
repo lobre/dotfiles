@@ -2,7 +2,11 @@
 
 case "$1" in
     http:*|https:*)
-        exec firefox "$1"
+        if command -v flatpak >/dev/null 2>&1 && flatpak info org.mozilla.firefox >/dev/null 2>&1; then
+            exec flatpak run org.mozilla.firefox "$1"
+        else
+            exec /usr/bin/xdg-open "$@"
+        fi
         ;;
     *.pdf)
         exec zathura "$1"
