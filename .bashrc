@@ -61,16 +61,9 @@ set_prompt() {
     PS1="$(date +%-H:%M)$prompt_bat $prompt_dir $(prompt_char)"
 }
 
-PROMPT_COMMAND=set_prompt
-
-# set terminal title to running command
-if [ "$TERM" = "xterm-256color" ]; then
-    trap '
-        if [ "$BASH_COMMAND" != set_prompt ]; then
-            echo -ne "\033]0;${BASH_COMMAND} — $(basename "$PWD") — XTerm\007"
-        fi
-    ' DEBUG
-fi
+# Append to PROMPT_COMMAND (don't overwrite), because elementary Terminal uses
+# it to send command-completion callbacks for tab state and notifications.
+PROMPT_COMMAND+=(set_prompt)
 
 # reserve ctrl-s to bash history forward
 stty -ixon
@@ -80,5 +73,3 @@ if [ -f "$HOME/.bashrc.local" ]; then
    . "$HOME/.bashrc.local"
 fi
 
-# hack for initial terminal title
-new() { :; }; new
