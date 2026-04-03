@@ -2,16 +2,29 @@ set global startup_info_version 20240519
 
 set global indentwidth 4
 set global ui_options terminal_set_title=true terminal_assistant=none terminal_enable_mouse=true
-set global autoinfo ""
+#set global autoinfo ""
 set global autocomplete prompt|insert
 
 colorscheme 100r
 
 add-highlighter global/ wrap
 add-highlighter global/ show-whitespaces -only-trailing -lf " " -indent ""
+add-highlighter global/ number-lines -hlcursor -cursor-separator ' ▶ ' -separator '   '
+add-highlighter global/ show-matching
 
-def -params 1 assign %{ set global "%arg{1}client" %val{client} }
-complete-command assign shell-script-candidates %{ printf 'jump\ntools\ndocs\n' }
+eval %sh{kak-lsp}
+
+set-option global modelinefmt "%opt{lsp_modeline} %opt{modelinefmt}"
+
+hook global WinSetOption filetype=(go|php) %{
+    lsp-enable-window
+    lsp-inlay-diagnostics-enable window
+
+    hook window BufWritePre .* lsp-formatting-sync
+    hook global BufWritePre .*[.]go %{ try %{
+        lsp-code-actions-sync source.organizeImports
+    }}
+}
 
 def -params 1 project %{ change-directory "%arg{1}" }
 complete-command project shell-script-candidates %{ git-projects list }
@@ -19,40 +32,15 @@ complete-command project shell-script-candidates %{ git-projects list }
 def mkdir %{ nop %sh{ mkdir -p $(dirname $kak_buffile) } }
 def chmod %{ nop %sh{ chmod +x $kak_buffile } }
 
-def bind -params 1 %{ map global user %arg{1} "<esc>:edit %val{bufname}<ret>" }
-
 # i do have a ghost key combination on laptop
 def pipe-to -params .. %{ exec <a-|> }
 
-def -hidden yank-ref %{
+def yank-ref %{
     evaluate-commands -draft %{
         execute-keys ',;x'
         set-register dquote "%val{bufname}:%val{cursor_line}:%val{selection}"
     }
 }
-
-def focus-path -params 1 %{ eval -save-regs c %{
-    reg c %val{client} %val{bufname}
-
-    eval -client '*' 'reg c %reg{c} %val{client} %val{bufname}'
-
-    eval %sh{
-        path=$1
-
-        eval set -- "$kak_quoted_reg_c"
-
-        while [ $# -gt 0 ]; do
-            client=$1
-            buffer=$2
-
-            if [ "$path" = "$buffer" ]; then
-                echo "eval -client $client focus"
-            fi
-
-            shift 2
-        done
-    }
-}}
 
 def lookup %{ eval %{
     try %{
@@ -68,14 +56,21 @@ def lookup %{ eval %{
     }
 }}
 
+def reduce-selections %{
+    try %{
+        exec -draft "<a-,>"
+        exec ","
+    } catch %{
+        exec ";"
+    }
+}
+
 # this does not work when trying to open another kak instance in same directory
 hook global EnterDirectory .* %{ rename-session %sh{ basename $(pwd) } }
 
 hook global BufOpenFile ^([^*]+)$ %{ evaluate-commands %sh{
     if ! git check-ignore -q "$kak_hook_param_capture_1" 2>/dev/null; then
         for hook in WinCreate BufReload BufWritePost; do
-            echo "hook buffer $hook %val{buffile} 'set buffer git_diff_add_char \"▏\"'"
-            echo "hook buffer $hook %val{buffile} 'set buffer git_diff_mod_char \"▏\"'"
             echo "hook buffer $hook %val{buffile} 'git show-diff'"
         done
     fi
@@ -91,32 +86,22 @@ hook global WinSetOption filetype=git-commit %{
     autowrap-enable
 }
 
-map -docstring 'tag' global object t 'c<lt>\w[\w-]*\h*[^<gt>]*?(?<lt>!/)<gt>,<lt>/\w[\w-]*(?<lt>!/)<gt><ret>'
-
-#map global normal <a-y> %{:yank-ref<ret>}
-map global normal <ret> %{:lookup<ret>}
-map global user <space> %{<esc>:buffer<space>}
-map global user g %{<esc>:git grep<space>}
-map global user e %{<esc>:git edit<space>}
-map global user s %{<esc>:edit -scratch *scratch*<ret>}
-
-map global normal <c-p> %{:git edit<space>}
-map global normal <c-n> %{:buffer<space>}
-
-# clipboard
-map global normal <a-y> %{<a-|>copy<ret>:echo copied to clipboard<ret>}
-
-def reduce %{
-    try %{
-        exec -draft "<a-,>"
-        exec ","
-    } catch %{
-        exec ";"
-    }
-}
-
-map global normal <esc> ":reduce<ret>"
-
 hook global KakBegin .* %{
     set global termcmd 'io.elementary.terminal -n -e'
 }
+
+# personal mappings
+map global normal <space> ":enter-user-mode lsp<ret>"
+map global normal <ret>   ":lookup<ret>"
+map global normal <esc>   ":reduce-selections<ret>"
+map global normal <c-n>   ":edit -scratch *scratch*<ret>"
+map global normal <c-p>   ":git edit<space>"
+map global normal <c-f>   ":git grep<space>"
+map global normal <s-y>   ":yank-ref<ret>"
+map global normal <a-y>   "<a-|>copy<ret>:echo copied to clipboard<ret>"
+
+# reverse prompt mappings
+map global prompt <down> <tab>
+map global prompt <up>   <s-tab>
+map global prompt <c-n>  <down>
+map global prompt <c-p>  <up>

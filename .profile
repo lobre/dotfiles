@@ -13,7 +13,7 @@ export PAGER="less"
 export GOPATH="$HOME/go"
 export GOROOT="/usr/local/go"
 
-export PATH="$HOME/bin:$HOME/.local/bin:$GOROOT/bin:$GOPATH/bin:$PATH"
+export PATH="$HOME/bin:$HOME/.local/bin:$GOROOT/bin:$GOPATH/bin:$HOME/.cargo/bin:$PATH"
 
 # override qt5 and qt6 settings
 export QT_QPA_PLATFORMTHEME=qt5ct

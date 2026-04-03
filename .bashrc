@@ -10,10 +10,6 @@ shopt -s extglob
 shopt -s globstar
 shopt -s checkjobs
 
-alias ls='ls --color'
-alias cal='ncal -b'
-alias run-iso='qemu-system-x86_64 -boot d -m 2048 -enable-kvm -vga virtio -net nic -net user -cpu host -display gtk,grab-on-hover=on -cdrom'
-
 # enable programmable completion features
 if ! shopt -oq posix; then
   if [ -f /usr/share/bash-completion/bash_completion ]; then
@@ -72,4 +68,3 @@ stty -ixon
 if [ -f "$HOME/.bashrc.local" ]; then
    . "$HOME/.bashrc.local"
 fi
-
