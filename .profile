@@ -3,9 +3,6 @@ if [ -n "$BASH_VERSION" ] && [ -f "$HOME/.bashrc" ]; then
     . "$HOME/.bashrc"
 fi
 
-# override ssh agent to use gpg agent
-export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
-
 export EDITOR="kak"
 export LESS="-R --mouse"
 export PAGER="less"

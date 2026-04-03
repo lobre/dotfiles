@@ -64,6 +64,9 @@ PROMPT_COMMAND+=(set_prompt)
 # reserve ctrl-s to bash history forward
 stty -ixon
 
+# override ssh agent to use gpg agent
+export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+
 # dynamic configs
 if [ -f "$HOME/.bashrc.local" ]; then
    . "$HOME/.bashrc.local"
