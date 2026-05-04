@@ -11,7 +11,7 @@ add-highlighter global/ show-matching
 eval %sh{kak-lsp}
 
 # colorscheme after lsp to avoid overrides
-colorscheme 100r
+colorscheme phoenix
 
 set-option global modelinefmt "%opt{lsp_modeline} %opt{modelinefmt}"
 
