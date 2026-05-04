@@ -2,17 +2,16 @@ set global startup_info_version 20240519
 
 set global indentwidth 4
 set global ui_options terminal_set_title=true terminal_assistant=none terminal_enable_mouse=true
-#set global autoinfo ""
 set global autocomplete prompt|insert
-
-colorscheme 100r
 
 add-highlighter global/ wrap
 add-highlighter global/ show-whitespaces -only-trailing -lf " " -indent ""
-add-highlighter global/ number-lines -hlcursor -cursor-separator ' ▶ ' -separator '   '
 add-highlighter global/ show-matching
 
 eval %sh{kak-lsp}
+
+# colorscheme after lsp to avoid overrides
+colorscheme 100r
 
 set-option global modelinefmt "%opt{lsp_modeline} %opt{modelinefmt}"
 
@@ -97,6 +96,7 @@ map global normal <esc>   ":reduce-selections<ret>"
 map global normal <c-n>   ":edit -scratch *scratch*<ret>"
 map global normal <c-p>   ":git edit<space>"
 map global normal <c-f>   ":git grep<space>"
+map global normal <c-b>   ":b<space>"
 map global normal <s-y>   ":yank-ref<ret>"
 map global normal <a-y>   "<a-|>copy<ret>:echo copied to clipboard<ret>"
 

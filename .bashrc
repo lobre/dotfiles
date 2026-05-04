@@ -45,16 +45,7 @@ set_prompt() {
         prompt_dir="\[\e[1m\]$prompt_dir\[\e[0m\]"
     fi
 
-    bat_stat=$(cat /sys/class/power_supply/BAT*/status 2>/dev/null | head -n1)
-    bat_cap=$(cat /sys/class/power_supply/BAT*/capacity 2>/dev/null | head -n1)
-
-    prompt_bat=""
-
-    if [ -n "$bat_cap" ] && [ "$bat_stat" != "Full" ] && [ "$bat_stat" != "Not charging" ]; then
-        prompt_bat="|${bat_cap}%"
-    fi
-
-    PS1="$(date +%-H:%M)$prompt_bat $prompt_dir $(prompt_char)"
+    PS1="$prompt_dir $(prompt_char)"
 }
 
 # Append to PROMPT_COMMAND (don't overwrite), because elementary Terminal uses
