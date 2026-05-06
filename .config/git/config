@@ -13,6 +13,9 @@
 	editor = "kak"
 	pager = "less --mouse"
 
+[alias]
+	ls = ls-files
+
 [diff]
 	tool = meld
 
