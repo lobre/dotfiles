@@ -4,6 +4,8 @@ set global indentwidth 4
 set global ui_options terminal_set_title=true terminal_assistant=none terminal_enable_mouse=true
 set global autocomplete prompt|insert
 
+source "%val{config}/buffers.kak"
+
 add-highlighter global/ wrap
 add-highlighter global/ show-whitespaces -only-trailing -lf " " -indent ""
 add-highlighter global/ show-matching

@@ -1,0 +1,20 @@
+#!/bin/sh
+
+path=$PWD
+
+if git_root=$(git rev-parse --show-toplevel 2>/dev/null); then
+    if [ "$git_root" != "$HOME" ]; then
+        path=$git_root
+    fi
+fi
+
+session=$(basename "$path")
+
+session=$(printf '%s' "$session" |
+    sed 's/^\.//; s/[^A-Za-z0-9_-]/-/g')
+
+if [ -n "$session" ]; then
+    exec /usr/local/bin/kak -C "$session" "$@"
+else
+    exec /usr/local/bin/kak "$@"
+fi
